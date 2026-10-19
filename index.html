@@ -1593,7 +1593,7 @@
 
     <div class="topbar-right">
       <div class="progress-mini" aria-label="学习进度">
-        <span>已掌握 <b id="masteredCount">0</b> / <span id="totalCount">107</span></span>
+        <span>已掌握 <b id="masteredCount">0</b> / <span id="totalCount">139</span></span>
         <span class="progress-track"><span class="progress-fill" id="progressFill"></span></span>
       </div>
       <button class="btn-primary topbar-quiz" id="startQuizTop" type="button">开始斩词</button>
@@ -1621,7 +1621,7 @@
           <path d="M16 16L20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
         </svg>
         <input id="searchInput" type="search" autocomplete="off"
-               placeholder="搜函数名、关键字，或直接说：print、if、我想输出…"
+               placeholder="搜函数名、关键字、运算符，或直接说：print、if、我想输出…"
                aria-label="搜索词条名或功能">
         <button class="search-clear" id="searchClear" type="button" aria-label="清空搜索" hidden>×</button>
         <button class="search-submit" type="submit">搜一下</button>
@@ -1635,11 +1635,12 @@
         <button class="chip intent-chip" type="button" data-query="我想排序">我想排序</button>
         <button class="chip intent-chip" type="button" data-query="我想求和">我想求和</button>
         <button class="chip intent-chip" type="button" data-query="我想看类型">我想看类型</button>
+        <button class="chip intent-chip" type="button" data-query="我想判断相等">我想判断相等</button>
       </div>
 
       <div class="hero-stats">
-        <div class="stat"><b id="heroTotal">107</b><span>个词条</span></div>
-        <div class="stat"><b id="categoryTotal">10</b><span>大功能分类</span></div>
+        <div class="stat"><b id="heroTotal">139</b><span>个词条</span></div>
+        <div class="stat"><b id="categoryTotal">15</b><span>大功能分类</span></div>
         <div class="stat"><b>3</b><span>种斩词题型</span></div>
       </div>
     </div>
@@ -1684,7 +1685,7 @@
     <div class="library-head">
       <div>
         <h2>Python 词库</h2>
-        <p><span id="libraryCount">107</span> 个词条，函数、控制结构、关键字、概念、变量都在里面，按你的习惯挑一种找法。</p>
+        <p><span id="libraryCount">139</span> 个词条，函数、控制结构、关键字、运算符、概念、变量都在里面，按你的习惯挑一种找法。</p>
       </div>
       <div class="view-tabs" role="tablist" aria-label="词库分类方式">
         <button class="view-tab active" type="button" data-view="level" role="tab" aria-selected="true">按难度</button>
@@ -1696,7 +1697,7 @@
     <div class="filter-panel" id="filterPanel" aria-label="筛选条件"></div>
 
     <div class="result-meta">
-      <span id="resultText">共 107 个词条</span>
+      <span id="resultText">共 139 个词条</span>
       <button class="reset-btn" id="resetBtn" type="button" hidden>重置筛选</button>
     </div>
 
@@ -1756,8 +1757,8 @@
 </div>
 
 <footer class="footer">
-  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.5</span>
-  <span><span id="footerCount">107</span> 个词条 · C 语言词库筹备中</span>
+  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.6</span>
+  <span><span id="footerCount">139</span> 个词条 · C 语言词库筹备中</span>
 </footer>
 
 <script>
@@ -1768,16 +1769,17 @@
     4: { short: 'Lv.4', label: 'Lv.4 挑战' }
   };
 
-  const CATEGORIES = ['输入输出', '类型转换', '数值计算', '流程控制', '循环控制', '函数定义', '变量与常量', '序列与容器', '字符串处理', '判断与逻辑', '基础语法', '模块与导入', '进阶工具'];
+  const CATEGORIES = ['输入输出', '类型转换', '数值计算', '流程控制', '循环控制', '函数定义', '变量与常量', '序列与容器', '字符串处理', '判断与逻辑', '基础语法', '模块与导入', '异常处理', '类与对象', '进阶工具'];
   const TYPES = [
     { id: 'all', label: '全部' },
     { id: 'function', label: '函数' },
     { id: 'control', label: '控制结构' },
     { id: 'keyword', label: '关键字' },
+    { id: 'operator', label: '运算符' },
     { id: 'concept', label: '概念' },
     { id: 'variable', label: '变量' }
   ];
-  const TYPE_LABELS = { function: '函数', control: '控制结构', keyword: '关键字', concept: '概念', variable: '变量' };
+  const TYPE_LABELS = { function: '函数', control: '控制结构', keyword: '关键字', operator: '运算符', concept: '概念', variable: '变量' };
   const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
   function fnType(fn) {
@@ -2961,6 +2963,358 @@
       output: '循环结束',
       note: '让代码先能运行，之后再回来补内容；缩进块里不能空着。',
       related: ['if', 'for']
+    },
+    {
+      name: '==', display: '==', type: 'operator', kind: '比较运算符', level: 1, category: '判断与逻辑',
+      desc: '判断左右两边的值是不是相等。',
+      signature: 'a == b',
+      intents: ['判断相等', '是不是等于', '两个一样吗', '我想判断相等', '比较'],
+      snippet: 'score == 100',
+      example: 'print(3 == 3)\nprint("a" == "A")',
+      output: 'True\nFalse',
+      note: '两个等号才是「判断相等」；一个等号 = 是赋值。文字比较区分大小写。',
+      related: ['赋值', '!=', 'if']
+    },
+    {
+      name: '!=', display: '!=', type: 'operator', kind: '比较运算符', level: 1, category: '判断与逻辑',
+      desc: '判断左右两边的值是不是不相等。',
+      signature: 'a != b',
+      intents: ['判断不相等', '不一样', '不等于', '比较'],
+      snippet: 'score != 0',
+      example: 'print(3 != 5)\nprint("a" != "a")',
+      output: 'True\nFalse',
+      note: '! 读作 not，所以 != 就是「不等于」，和 == 正好相反。',
+      related: ['==', 'not', 'if']
+    },
+    {
+      name: '>', display: '>', type: 'operator', kind: '比较运算符', level: 1, category: '判断与逻辑',
+      desc: '判断左边是不是大于右边。',
+      signature: 'a > b',
+      intents: ['大于', '比大小', '谁更大', '我想比较'],
+      snippet: 'age > 18',
+      example: 'print(5 > 3)\nprint("b" > "a")',
+      output: 'True\nTrue',
+      note: '数字按大小比，文字按字母顺序比；结果一定是 True 或 False。',
+      related: ['<', '>=', 'if']
+    },
+    {
+      name: '<', display: '<', type: 'operator', kind: '比较运算符', level: 1, category: '判断与逻辑',
+      desc: '判断左边是不是小于右边。',
+      signature: 'a < b',
+      intents: ['小于', '比大小', '谁更小', '我想比较'],
+      snippet: 'age < 60',
+      example: 'print(2 < 5)\nprint(3 < 3)',
+      output: 'True\nFalse',
+      note: '开口朝向大的那边；3 < 3 不成立，结果是 False。',
+      related: ['>', '<=', 'if']
+    },
+    {
+      name: '>=', display: '>=', type: 'operator', kind: '比较运算符', level: 1, category: '判断与逻辑',
+      desc: '判断左边是不是大于或等于右边。',
+      signature: 'a >= b',
+      intents: ['大于等于', '至少', '不小于', '达到'],
+      snippet: 'score >= 60',
+      example: 'print(5 >= 5)\nprint(3 >= 4)',
+      output: 'True\nFalse',
+      note: '「至少」「不小于」都靠它；= 要写在 > 后面，写成 => 会报语法错误。',
+      related: ['>', '<=', 'if']
+    },
+    {
+      name: '<=', display: '<=', type: 'operator', kind: '比较运算符', level: 1, category: '判断与逻辑',
+      desc: '判断左边是不是小于或等于右边。',
+      signature: 'a <= b',
+      intents: ['小于等于', '不超过', '至多', '最多'],
+      snippet: 'score <= 100',
+      example: 'print(3 <= 4)\nprint(5 <= 4)',
+      output: 'True\nFalse',
+      note: '「不超过」「最多」都可以用它来判断，等号同样在后面。',
+      related: ['<', '>=', 'if']
+    },
+    {
+      name: '+', display: '+', type: 'operator', kind: '算术运算符', level: 1, category: '数值计算',
+      desc: '把两个数相加；用在文字上时，把两段文字拼起来。',
+      signature: 'a + b',
+      intents: ['加法', '相加', '拼接', '连起来', '我想计算'],
+      snippet: '"Py" + "thon"',
+      example: 'print(2 + 3)\nprint("Py" + "thon")',
+      output: '5\nPython',
+      note: '数字加数字是算术；文字加文字是拼接；数字和文字不能直接相加。',
+      related: ['-', '*', 'str']
+    },
+    {
+      name: '-', display: '-', type: 'operator', kind: '算术运算符', level: 1, category: '数值计算',
+      desc: '把两个数相减，或者给一个数加上负号。',
+      signature: 'a - b',
+      intents: ['减法', '相减', '减去', '负号'],
+      snippet: 'price - 10',
+      example: 'print(10 - 4)\nprint(-5)',
+      output: '6\n-5',
+      note: '减号写在数字前面表示负数，比如 -5。',
+      related: ['+', '*', '/']
+    },
+    {
+      name: '*', display: '*', type: 'operator', kind: '算术运算符', level: 1, category: '数值计算',
+      desc: '把两个数相乘；用在文字或列表上时，把内容重复几遍。',
+      signature: 'a * b',
+      intents: ['乘法', '相乘', '重复', '复制几次'],
+      snippet: '"ab" * 3',
+      example: 'print(3 * 4)\nprint("ab" * 3)',
+      output: '12\nababab',
+      note: '2 * 3 结果是 6；"ab" * 3 会得到 "ababab"。',
+      related: ['+', '**', '/']
+    },
+    {
+      name: '/', display: '/', type: 'operator', kind: '算术运算符', level: 2, category: '数值计算',
+      desc: '做除法，结果一定是小数（浮点数）。',
+      signature: 'a / b',
+      intents: ['除法', '除以', '平均', '我想除'],
+      snippet: '10 / 4',
+      example: 'print(10 / 4)\nprint(9 / 3)',
+      output: '2.5\n3.0',
+      note: '哪怕除得尽，结果也是 3.0 这样的小数；除数不能是 0。',
+      related: ['//', '%', 'float']
+    },
+    {
+      name: '//', display: '//', type: 'operator', kind: '算术运算符', level: 2, category: '数值计算',
+      desc: '做整除：除掉以后向下取整，只留整数部分。',
+      signature: 'a // b',
+      intents: ['整除', '取整', '向下取整', '不要小数'],
+      snippet: '7 // 2',
+      example: 'print(7 // 2)\nprint(-7 // 2)',
+      output: '3\n-4',
+      note: '7 // 2 是 3；负数会向下取整，所以 -7 // 2 是 -4。',
+      related: ['/', '%', 'int']
+    },
+    {
+      name: '%', display: '%', type: 'operator', kind: '算术运算符', level: 2, category: '数值计算',
+      desc: '做除法后，只要剩下的余数。',
+      signature: 'a % b',
+      intents: ['取余', '余数', '剩下的', '判断奇偶'],
+      snippet: '7 % 2',
+      example: 'print(7 % 2)\nprint(10 % 3)',
+      output: '1\n1',
+      note: '7 % 2 是 1，说明 7 是奇数；常用来判断奇偶或做循环。',
+      related: ['//', '/', 'divmod']
+    },
+    {
+      name: '**', display: '**', type: 'operator', kind: '算术运算符', level: 2, category: '数值计算',
+      desc: '把一个数自己乘自己指定的次数，也就是乘方。',
+      signature: 'a ** b',
+      intents: ['乘方', '几次方', '平方', '幂'],
+      snippet: '2 ** 10',
+      example: 'print(2 ** 10)\nprint(3 ** 0.5)',
+      output: '1024\n1.7320508075688772',
+      note: '2 ** 10 是 2 的 10 次方；3 ** 0.5 相当于开平方。',
+      related: ['*', 'pow', 'sqrt']
+    },
+    {
+      name: '+=', display: '+=', type: 'operator', kind: '赋值运算符', level: 2, category: '变量与常量',
+      desc: '把右边的值加到左边变量上，再存回左边。',
+      signature: '变量 += 值',
+      intents: ['累加', '加上去', '自己加', '加一'],
+      snippet: 'total += 5',
+      example: 'total = 10\ntotal += 5\nprint(total)',
+      output: '15',
+      note: 'total += 5 等价于 total = total + 5；还有 -=、*=、/= 这些写法。',
+      related: ['赋值', '变量', '+']
+    },
+    {
+      name: 'with', display: 'with', type: 'keyword', kind: '关键字', level: 2, category: '输入输出', volatile: true,
+      desc: '打开文件等资源，代码块结束后自动收尾、自动关闭。',
+      signature: 'with open(...) as 变量:',
+      intents: ['自动关闭', '打开文件', '安全读写', 'with'],
+      snippet: 'with open("notes.txt") as f:',
+      example: 'with open("notes.txt", "w", encoding="utf-8") as f:\n    f.write("你好，文件")\nprint("写完")',
+      output: '写完',
+      note: '离开缩进块会自动关闭文件，比手动 f.close() 更安全。',
+      related: ['open', 'read', 'write']
+    },
+    {
+      name: 'from', display: 'from', type: 'keyword', kind: '关键字', level: 2, category: '模块与导入',
+      desc: '从一个模块里只导入指定的工具，用起来更短。',
+      signature: 'from 模块 import 工具',
+      intents: ['从模块导入', '只导入一个', '导入函数', 'from'],
+      snippet: 'from math import sqrt',
+      example: 'from math import sqrt\nprint(sqrt(16))',
+      output: '4.0',
+      note: '导入后直接写 sqrt(16)，不用再写 math.sqrt。',
+      related: ['import', 'as', '模块']
+    },
+    {
+      name: 'as', display: 'as', type: 'keyword', kind: '关键字', level: 2, category: '模块与导入',
+      desc: '给导入的模块或工具起一个短名字。',
+      signature: 'import 模块 as 别名',
+      intents: ['起别名', '改名字', '缩写', 'as'],
+      snippet: 'import math as m',
+      example: 'import math as m\nprint(m.sqrt(25))',
+      output: '5.0',
+      note: '之后用 m.sqrt() 就相当于 math.sqrt()；from 导入时也能起别名。',
+      related: ['import', 'from', '模块']
+    },
+    {
+      name: 'try', display: 'try', type: 'control', kind: '控制结构', level: 2, category: '异常处理',
+      desc: '尝试执行可能出错的代码，出错就交给 except 处理。',
+      signature: 'try: ... except: ...',
+      intents: ['尝试', '捕获异常', '防止报错', '出错怎么办'],
+      snippet: 'try:\n    int("abc")\nexcept ValueError:\n    print("不是数字")',
+      example: 'try:\n    int("abc")\nexcept ValueError:\n    print("不是数字")',
+      output: '不是数字',
+      note: 'try 里的代码出错后，会跳到对应的 except，程序不会直接崩溃。',
+      related: ['except', 'finally', '异常']
+    },
+    {
+      name: 'except', display: 'except', type: 'control', kind: '控制结构', level: 2, category: '异常处理',
+      desc: '接住 try 里的错误，并决定怎么处理。',
+      signature: 'except 错误类型:',
+      intents: ['捕获错误', '处理异常', '接住错误', 'except'],
+      snippet: 'except ValueError:',
+      example: 'try:\n    num = int("abc")\nexcept ValueError:\n    print("不是数字")',
+      output: '不是数字',
+      note: '可以写具体的错误类型（如 ValueError），也可以写 except Exception 兜底。',
+      related: ['try', 'finally', '异常']
+    },
+    {
+      name: 'finally', display: 'finally', type: 'control', kind: '控制结构', level: 2, category: '异常处理',
+      desc: '不管前面有没有出错，最后都会执行的代码。',
+      signature: 'finally:',
+      intents: ['最后执行', '不管对错', '收尾', 'finally'],
+      snippet: 'finally:\n    print("收尾")',
+      example: 'try:\n    print(1 / 0)\nexcept ZeroDivisionError:\n    print("出错了")\nfinally:\n    print("收尾")',
+      output: '出错了\n收尾',
+      note: '常用来关闭文件、释放资源；就算 try 里 return 了，finally 也会执行。',
+      related: ['try', 'except', 'with']
+    },
+    {
+      name: 'raise', display: 'raise', type: 'keyword', kind: '关键字', level: 3, category: '异常处理', volatile: true,
+      desc: '主动抛出一个错误，让程序停下来并提示原因。',
+      signature: 'raise 错误类型("说明")',
+      intents: ['主动报错', '抛出异常', '提醒出错', 'raise'],
+      snippet: 'raise ValueError("年龄不能为负")',
+      example: 'age = -1\nif age < 0:\n    raise ValueError("年龄不能为负")',
+      output: 'ValueError: 年龄不能为负',
+      note: 'raise 适合检查到不合理的数据时主动叫停；后面的代码不会执行。',
+      related: ['try', 'except', '异常']
+    },
+    {
+      name: 'class', display: 'class', type: 'keyword', kind: '关键字', level: 3, category: '类与对象',
+      desc: '定义一类对象的「模板」，里面写属性和方法。',
+      signature: 'class 类名:',
+      intents: ['定义类', '模板', '面向对象', 'class'],
+      snippet: 'class Dog:\n    ...',
+      example: 'class Dog:\n    def __init__(self, name):\n        self.name = name\n\nd = Dog("旺财")\nprint(d.name)',
+      output: '旺财',
+      note: '类名习惯用大写开头；用「类名(...)」就能创建出一个对象。',
+      related: ['__init__', 'self', '类', '对象']
+    },
+    {
+      name: 'self', display: 'self', type: 'concept', kind: '概念', level: 3, category: '类与对象',
+      desc: '类的方法里，指向当前这个对象自己的名字。',
+      signature: 'def 方法(self, ...):',
+      intents: ['对象自己', '当前对象', '方法里的 self', 'self'],
+      snippet: 'self.name = name',
+      example: 'class Cat:\n    def __init__(self, name):\n        self.name = name\n\nprint(Cat("咪咪").name)',
+      output: '咪咪',
+      note: 'self 不是关键字，只是约定俗成的名字；调用方法时不用手动传。',
+      related: ['class', '__init__', '对象']
+    },
+    {
+      name: '__init__', display: '__init__', type: 'function', kind: '魔法方法', level: 3, category: '类与对象',
+      desc: '创建对象时自动运行的初始化方法，用来设置属性。',
+      signature: '__init__(self, ...)',
+      intents: ['初始化', '创建对象时运行', '构造函数', '设置属性'],
+      snippet: 'def __init__(self, name):\n    self.name = name',
+      example: 'class Cup:\n    def __init__(self, ml):\n        self.ml = ml\n\nprint(Cup(250).ml)',
+      output: '250',
+      note: '名字前后各有两个下划线；创建对象时自动调用，不需要手动写 .__init__()。',
+      related: ['class', 'self', '对象']
+    },
+    {
+      name: 'lambda', display: 'lambda', type: 'keyword', kind: '关键字', level: 3, category: '函数定义',
+      desc: '写一个没有名字的小函数，一行就能搞定。',
+      signature: 'lambda 参数: 表达式',
+      intents: ['匿名函数', '小函数', '一行函数', 'lambda'],
+      snippet: 'lambda x: x * 2',
+      example: 'double = lambda x: x * 2\nprint(double(4))',
+      output: '8',
+      note: '适合临时用一下的小函数；逻辑一复杂，还是用 def 更清楚。',
+      related: ['def', 'return', 'map']
+    },
+    {
+      name: 'del', display: 'del', type: 'keyword', kind: '关键字', level: 2, category: '序列与容器',
+      desc: '删除变量，或者删掉容器里的某个元素。',
+      signature: 'del 变量或元素',
+      intents: ['删除', '删掉元素', '删除变量', 'del'],
+      snippet: 'del nums[1]',
+      example: 'nums = [1, 2, 3]\ndel nums[1]\nprint(nums)',
+      output: '[1, 3]',
+      note: 'del nums[1] 按位置删除；想按值删除列表元素，可以用 remove()。',
+      related: ['remove', 'pop', '列表']
+    },
+    {
+      name: 'f-string', display: 'f-string', type: 'concept', kind: '概念', level: 1, category: '字符串处理',
+      desc: '在文字里直接放入变量值的写法，字符串前面加个 f。',
+      signature: 'f"文字{变量}"',
+      intents: ['格式化字符串', '把变量放进文字', '拼接文字', 'f 字符串'],
+      snippet: 'f"你好，{name}"',
+      example: 'name = "小明"\nprint(f"你好，{name}！")',
+      output: '你好，小明！',
+      note: '字符串前面加 f，大括号 {} 里可以放变量，也可以放算式。',
+      related: ['str', 'format', 'print']
+    },
+    {
+      name: '列表推导式', display: '列表推导式', type: 'concept', kind: '概念', level: 3, category: '序列与容器',
+      desc: '用一行代码，从一个序列生成新的列表。',
+      signature: '[表达式 for 元素 in 序列]',
+      intents: ['推导式', '一行生成列表', '批量处理', '列表推导'],
+      snippet: '[n * n for n in nums]',
+      example: 'nums = [1, 2, 3]\nprint([n * n for n in nums])',
+      output: '[1, 4, 9]',
+      note: '把 for 循环和 append 合成一行；还能在末尾加 if 来过滤。',
+      related: ['列表', 'for', 'append']
+    },
+    {
+      name: '异常', display: '异常', type: 'concept', kind: '概念', level: 2, category: '异常处理', volatile: true,
+      desc: '程序运行中出现的错误，比如除以 0 或转换失败。',
+      signature: '错误类型: 说明',
+      intents: ['错误', '报错', '程序崩了', '异常'],
+      snippet: 'int("abc")',
+      example: 'int("abc")',
+      output: "ValueError: invalid literal for int() with base 10: 'abc'",
+      note: '异常不处理，程序就会停下来；可以用 try / except 把它接住。',
+      related: ['try', 'except', 'raise']
+    },
+    {
+      name: '类', display: '类', type: 'concept', kind: '概念', level: 3, category: '类与对象',
+      desc: '一类事物的模板，规定了它们有哪些数据和动作。',
+      signature: 'class 类名:',
+      intents: ['类是什么', '模板', '面向对象', 'class'],
+      snippet: 'class Cat:\n    ...',
+      example: 'class Cat:\n    def __init__(self, name):\n        self.name = name\n\na = Cat("团子")\nb = Cat("年糕")\nprint(a.name, b.name)',
+      output: '团子 年糕',
+      note: '类像饼干模具，对象是用模具做出来的一块块饼干。',
+      related: ['class', '对象', 'self']
+    },
+    {
+      name: '对象', display: '对象', type: 'concept', kind: '概念', level: 3, category: '类与对象',
+      desc: '根据类创建出来的具体东西，有自己的数据和方法。',
+      signature: '对象 = 类名(...)',
+      intents: ['对象是什么', '实例', '具体的东西', '面向对象'],
+      snippet: 'dog = Dog("旺财")',
+      example: 'name = "python"\nprint(name.upper())',
+      output: 'PYTHON',
+      note: '字符串、列表其实也是对象；「数据 + 能对它做的事」就是对象。',
+      related: ['类', 'class', '变量']
+    },
+    {
+      name: '函数', display: '函数', type: 'concept', kind: '概念', level: 1, category: '函数定义',
+      desc: '一段打包好的步骤，起了名字，可以反复调用。',
+      signature: 'def 函数名(参数):',
+      intents: ['函数是什么', '打包步骤', '反复使用', '调用'],
+      snippet: 'def greet(name):\n    ...',
+      example: 'def say_hi():\n    print("嗨")\n\nsay_hi()\nsay_hi()',
+      output: '嗨\n嗨',
+      note: '定义用 def，调用写「函数名(参数)」；写好一次，就能重复使用。',
+      related: ['def', '参数', '返回值']
     }
   ];
 
@@ -3136,7 +3490,7 @@
     return '<div class="empty">'
       + '<div class="empty-mark">?</div>'
       + '<h3>词库里还没找到这个词</h3>'
-      + '<p>换个说法试试：既能搜函数名、关键字，也能直接搜「输出」「排序」「转换」。</p>'
+      + '<p>换个说法试试：既能搜函数名、关键字、运算符，也能直接搜「输出」「排序」「判断相等」。</p>'
       + '<div class="chips">'
       + '<button class="chip" type="button" data-suggestion="print">print</button>'
       + '<button class="chip" type="button" data-suggestion="我想输出">我想输出</button>'
@@ -3153,7 +3507,7 @@
     if (state.type !== 'all') parts.push('类型：' + TYPE_LABELS[state.type]);
     if (state.view === 'level' && state.level !== 'all') parts.push(LEVELS[Number(state.level)].label);
     if (state.view === 'letter' && state.letter !== 'all') {
-      parts.push(state.letter === 'other' ? '其他（中文词条）' : '首字母 ' + state.letter);
+      parts.push(state.letter === 'other' ? '其他（中文或符号词条）' : '首字母 ' + state.letter);
     }
     if (state.view === 'category' && state.category !== 'all') parts.push('功能：' + state.category);
 
