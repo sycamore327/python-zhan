@@ -790,7 +790,7 @@
   .modal-backdrop {
     position: fixed;
     inset: 0;
-    z-index: 100;
+    z-index: 120;
     display: none;
     align-items: center;
     justify-content: center;
@@ -1299,15 +1299,41 @@
   .quiz-feedback.bad .feedback-title { color: #b42318; }
 
   .feedback-sig {
-    display: inline-block;
-    margin-bottom: 8px;
-    padding: 7px 9px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 8px;
+    padding: 7px 10px;
     border: 1px solid var(--line);
     border-radius: 8px;
     background: #fff;
     color: var(--ink-2);
     font-family: var(--mono);
     font-size: 11.5px;
+    line-height: 1.5;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, color .15s;
+  }
+
+  .feedback-sig:hover {
+    border-color: var(--blue-300);
+    background: var(--blue-50);
+    color: var(--blue-700);
+  }
+
+  .feedback-sig:focus-visible {
+    outline: 3px solid rgba(90, 171, 245, .35);
+    outline-offset: 2px;
+  }
+
+  .feedback-sig-hint {
+    flex: none;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--blue-600);
+    white-space: nowrap;
   }
 
   .feedback-note {
@@ -1489,7 +1515,7 @@
     .quiz-foot .btn-primary { width: 100%; min-height: 48px; }
     .quiz-option { min-height: 52px; font-size: 14px; }
     .option-key { width: 26px; height: 26px; }
-    .feedback-sig { max-width: 100%; white-space: pre-wrap; word-break: break-word; }
+    .feedback-sig { max-width: 100%; flex-wrap: wrap; white-space: normal; word-break: break-word; }
     .quiz-intro h3 { font-size: 23px; }
   }
 
@@ -1720,7 +1746,7 @@
 </div>
 
 <footer class="footer">
-  <span><b>python斩</b> · Python 函数百词斩 · 学习小组内部工具 · v0.2</span>
+  <span><b>python斩</b> · Python 函数百词斩 · 学习小组内部工具 · v0.3</span>
   <span><span id="footerCount">72</span> 个词条 · C 语言词库筹备中</span>
 </footer>
 
@@ -2765,7 +2791,7 @@
 
   function closeModal() {
     modalBackdrop.classList.remove('open');
-    document.body.style.overflow = '';
+    document.body.style.overflow = quizBackdrop.classList.contains('open') ? 'hidden' : '';
     currentName = null;
   }
 
@@ -3082,7 +3108,11 @@
     const correct = question.selectedIndex === question.correctIndex;
     return '<div class="quiz-feedback ' + (correct ? 'ok' : 'bad') + '">'
       + '<div class="feedback-title">' + (correct ? '斩中了。' : '差一点，记住这张词卡。') + '</div>'
-      + '<code class="feedback-sig">' + esc(question.signature) + '</code>'
+      + '<button class="feedback-sig" type="button" data-open-fn="' + esc(question.fnName) + '"'
+      + ' title="查看 ' + esc(question.display) + ' 的函数定义">'
+      + esc(question.signature)
+      + '<span class="feedback-sig-hint">查看词卡</span>'
+      + '</button>'
       + '<p class="feedback-note">' + esc(question.note || question.desc) + '</p>'
       + '</div>';
   }
@@ -3169,6 +3199,12 @@
   });
 
   quizStage.addEventListener('click', (event) => {
+    const openFn = event.target.closest('[data-open-fn]');
+    if (openFn) {
+      openModal(openFn.dataset.openFn);
+      return;
+    }
+
     const review = event.target.closest('[data-review]');
     if (review) {
       const name = review.dataset.review;
@@ -3308,6 +3344,13 @@
   });
 
   document.addEventListener('keydown', (event) => {
+    if (modalBackdrop.classList.contains('open')) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeModal();
+      }
+      return;
+    }
     if (quizBackdrop.classList.contains('open')) {
       if (event.key === 'Escape') {
         event.preventDefault();
@@ -3336,7 +3379,6 @@
       }
       return;
     }
-    if (event.key === 'Escape' && modalBackdrop.classList.contains('open')) closeModal();
     if (event.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
       event.preventDefault();
       searchInput.focus();
