@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>python斩 · Python 函数百词斩</title>
+<title>python斩 · Python 词条百词斩</title>
 <style>
   :root {
     --bg: #f4f9ff;
@@ -594,12 +594,22 @@
     padding: 18px 0 6px;
   }
 
+  .filter-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-basis: 100%;
+    gap: 7px;
+  }
+
   .filter-label {
     font-size: 11.5px;
     color: var(--muted-2);
     margin-right: 3px;
     white-space: nowrap;
   }
+
+  .filter-row .chip-count { font-variant-numeric: tabular-nums; }
 
   .letter-chip {
     min-width: 34px;
@@ -1572,7 +1582,7 @@
       <span class="brand-mark">Py</span>
       <span class="brand-copy">
         <span class="brand-title">python斩</span>
-        <span class="brand-sub">PYTHON 函数百词斩</span>
+        <span class="brand-sub">PYTHON 词条百词斩</span>
       </span>
     </a>
 
@@ -1599,10 +1609,10 @@
   <section class="hero">
     <div class="hero-copy">
       <span class="eyebrow"><i></i>为编程学习小组准备的第一份礼物</span>
-      <h1>每天斩一个函数，<br><span class="hl">把 Python 用成母语。</span></h1>
+      <h1>每天斩一个词条，<br><span class="hl">把 Python 用成母语。</span></h1>
       <p class="lede">
-        按难度从 <code>print</code> 一路学到 <code>map</code>，按首字母 A–Z 查，
-        或者按功能找。也可以直接说人话：搜「我想输出」「我想排序」都行。
+        按难度从 <code>print</code> 一路学到 <code>map</code>，也能查 <code>if</code>、<code>for</code> 这些关键字。
+        按首字母 A–Z 查，或者按功能找。也可以直接说人话：搜「我想输出」「我想排序」都行。
       </p>
 
       <form class="search-shell" id="searchForm" role="search">
@@ -1611,8 +1621,8 @@
           <path d="M16 16L20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
         </svg>
         <input id="searchInput" type="search" autocomplete="off"
-               placeholder="搜函数名，或直接说：print、我想要输出、排序…"
-               aria-label="搜索函数名或功能">
+               placeholder="搜函数名、关键字，或直接说：print、if、我想输出…"
+               aria-label="搜索词条名或功能">
         <button class="search-clear" id="searchClear" type="button" aria-label="清空搜索" hidden>×</button>
         <button class="search-submit" type="submit">搜一下</button>
       </form>
@@ -1628,13 +1638,13 @@
       </div>
 
       <div class="hero-stats">
-        <div class="stat"><b id="heroTotal">72</b><span>个函数词条</span></div>
-        <div class="stat"><b>6</b><span>大功能分类</span></div>
+        <div class="stat"><b id="heroTotal">82</b><span>个词条</span></div>
+        <div class="stat"><b id="categoryTotal">10</b><span>大功能分类</span></div>
         <div class="stat"><b>3</b><span>种斩词题型</span></div>
       </div>
     </div>
 
-    <aside class="hero-card" id="today" aria-label="今日推荐函数">
+    <aside class="hero-card" id="today" aria-label="今日推荐词条">
       <span class="day-ghost" aria-hidden="true">01</span>
       <div class="hero-card-top">
         <span class="hero-badge"><i></i>DAY 01 · 今日推荐</span>
@@ -1659,8 +1669,8 @@
   <section class="quiz-banner" aria-label="斩词挑战">
     <div class="quiz-banner-copy">
       <span class="eyebrow"><i></i>斩词挑战 · 每天 10 题</span>
-      <h2>今天，斩 10 个函数。</h2>
-      <p>看描述选函数、看函数选用途、看代码猜输出。答对就记入「已掌握」，答错也会得到一张词卡。</p>
+      <h2>今天，斩 10 个词条。</h2>
+      <p>看描述选词条、看词条选用途、看代码猜输出。答对就记入「已掌握」，答错也会得到一张词卡。</p>
       <div class="quiz-banner-stats">
         <span>今日已斩 <b id="todayAnswered">0</b> 题</span>
         <span>正确率 <b id="accuracy">0%</b></span>
@@ -1673,8 +1683,8 @@
   <section class="library" id="library">
     <div class="library-head">
       <div>
-        <h2>函数词库</h2>
-        <p><span id="libraryCount">72</span> 个词条，从最简单的 print 开始，按你的习惯挑一种找法。</p>
+        <h2>Python 词库</h2>
+        <p><span id="libraryCount">82</span> 个词条，函数、关键字、概念都在里面，按你的习惯挑一种找法。</p>
       </div>
       <div class="view-tabs" role="tablist" aria-label="词库分类方式">
         <button class="view-tab active" type="button" data-view="level" role="tab" aria-selected="true">按难度</button>
@@ -1686,7 +1696,7 @@
     <div class="filter-panel" id="filterPanel" aria-label="筛选条件"></div>
 
     <div class="result-meta">
-      <span id="resultText">共 31 个函数</span>
+      <span id="resultText">共 82 个词条</span>
       <button class="reset-btn" id="resetBtn" type="button" hidden>重置筛选</button>
     </div>
 
@@ -1715,12 +1725,12 @@
       <div class="note" id="modalNote"></div>
     </div>
     <div class="modal-section">
-      <h4>相关函数</h4>
+      <h4>相关词条</h4>
       <div class="chips" id="modalRelated"></div>
     </div>
     <div class="modal-actions">
       <button class="btn-primary" id="masterBtn" type="button">标记为已掌握</button>
-      <button class="btn-ghost" id="nextBtn" type="button">下一个函数</button>
+      <button class="btn-ghost" id="nextBtn" type="button">下一个词条</button>
     </div>
   </div>
 </div>
@@ -1746,8 +1756,8 @@
 </div>
 
 <footer class="footer">
-  <span><b>python斩</b> · Python 函数百词斩 · 学习小组内部工具 · v0.3</span>
-  <span><span id="footerCount">72</span> 个词条 · C 语言词库筹备中</span>
+  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.4</span>
+  <span><span id="footerCount">82</span> 个词条 · C 语言词库筹备中</span>
 </footer>
 
 <script>
@@ -1758,8 +1768,19 @@
     4: { short: 'Lv.4', label: 'Lv.4 挑战' }
   };
 
-  const CATEGORIES = ['输入输出', '类型转换', '数值计算', '序列与容器', '字符串处理', '进阶工具'];
+  const CATEGORIES = ['输入输出', '类型转换', '数值计算', '流程控制', '循环控制', '函数定义', '变量与赋值', '序列与容器', '字符串处理', '进阶工具'];
+  const TYPES = [
+    { id: 'all', label: '全部' },
+    { id: 'function', label: '函数' },
+    { id: 'keyword', label: '关键字' },
+    { id: 'concept', label: '概念' }
+  ];
+  const TYPE_LABELS = { function: '函数', keyword: '关键字', concept: '概念' };
   const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+  function fnType(fn) {
+    return fn.type || 'function';
+  }
 
   const FUNCTIONS = [
     {
@@ -2553,11 +2574,122 @@
       output: '（文件 notes.txt 中被写入「你好，文件」）',
       note: '用 "w" 模式会清空原文件；追加内容用 "a" 模式。',
       related: ['open', 'read', 'print']
+    },
+    {
+      name: 'if', type: 'keyword', kind: '关键字', level: 1, category: '流程控制',
+      desc: '如果条件成立，就执行缩进里的代码。',
+      signature: 'if 条件:',
+      intents: ['如果', '判断条件', '条件成立', '分支', '我想判断'],
+      snippet: 'if age >= 18:\n    print("成年")',
+      example: 'age = 20\nif age >= 18:\n    print("成年")',
+      output: '成年',
+      note: '冒号 : 和下一行的缩进都不能少，条件成立才会执行缩进的代码。',
+      related: ['elif', 'else', 'while']
+    },
+    {
+      name: 'elif', type: 'keyword', kind: '关键字', level: 2, category: '流程控制',
+      desc: '前面的条件不成立时，再判断另一个条件。',
+      signature: 'elif 条件:',
+      intents: ['否则如果', '多个条件', '再判断一次', '分段'],
+      snippet: 'elif score >= 60:\n    print("及格")',
+      example: 'score = 75\nif score >= 90:\n    print("优秀")\nelif score >= 60:\n    print("及格")\nelse:\n    print("要加油")',
+      output: '及格',
+      note: 'elif 可以有多个，从上往下检查，命中一个就不再往下看。',
+      related: ['if', 'else']
+    },
+    {
+      name: 'else', type: 'keyword', kind: '关键字', level: 1, category: '流程控制',
+      desc: '前面所有条件都不成立时，执行这里的代码。',
+      signature: 'else:',
+      intents: ['否则', '都不满足', '兜底', '其他情况'],
+      snippet: 'else:\n    print("未成年")',
+      example: 'age = 16\nif age >= 18:\n    print("成年")\nelse:\n    print("未成年")',
+      output: '未成年',
+      note: 'else 后面不写条件，用来兜底，要和对应的 if 对齐。',
+      related: ['if', 'elif']
+    },
+    {
+      name: 'for', type: 'keyword', kind: '关键字', level: 2, category: '循环控制',
+      desc: '把一串内容挨个拿出来，对每一个做同样的事。',
+      signature: 'for 变量 in 一串内容:',
+      intents: ['循环', '遍历', '重复几次', '每个都做一次', '我想循环'],
+      snippet: 'for i in range(3):\n    print(i)',
+      example: 'for i in range(3):\n    print(i)',
+      output: '0\n1\n2',
+      note: '适合「知道要循环几次」或「遍历一串内容」。range(3) 是 0、1、2，不含 3。',
+      related: ['while', 'range', 'break', 'continue']
+    },
+    {
+      name: 'while', type: 'keyword', kind: '关键字', level: 2, category: '循环控制',
+      desc: '只要条件还成立，就一直重复执行缩进里的代码。',
+      signature: 'while 条件:',
+      intents: ['循环', '只要还满足', '反复执行', '条件循环', '我想循环'],
+      snippet: 'while count > 0:\n    print(count)',
+      example: 'count = 3\nwhile count > 0:\n    print(count)\n    count -= 1',
+      output: '3\n2\n1',
+      note: '条件一直为真就会一直循环。记得在循环里改变条件，避免死循环。',
+      related: ['for', 'break', 'continue']
+    },
+    {
+      name: 'break', type: 'keyword', kind: '关键字', level: 2, category: '循环控制',
+      desc: '立刻跳出当前这个循环，不再继续下一轮。',
+      signature: 'break',
+      intents: ['跳出循环', '提前结束', '停止循环', '不想继续'],
+      snippet: 'if i == 3:\n    break',
+      example: 'for i in range(5):\n    if i == 3:\n        break\n    print(i)',
+      output: '0\n1\n2',
+      note: '只会跳出当前这一层循环，循环后面的代码继续执行。',
+      related: ['continue', 'for', 'while']
+    },
+    {
+      name: 'continue', type: 'keyword', kind: '关键字', level: 2, category: '循环控制',
+      desc: '跳过这一轮剩下的代码，直接开始下一轮。',
+      signature: 'continue',
+      intents: ['跳过这一轮', '继续下一轮', '略过', '跳过'],
+      snippet: 'if i == 3:\n    continue',
+      example: 'for i in range(5):\n    if i == 3:\n        continue\n    print(i)',
+      output: '0\n1\n2\n4',
+      note: '只是跳过当前这一轮，循环本身不会结束。',
+      related: ['break', 'for', 'while']
+    },
+    {
+      name: 'def', type: 'keyword', kind: '关键字', level: 2, category: '函数定义',
+      desc: '定义一个自己的函数，把一段步骤打包起来。',
+      signature: 'def 函数名(参数):',
+      intents: ['定义函数', '自定义函数', '打包代码', '写一个函数', '我想定义'],
+      snippet: 'def greet(name):\n    print("你好，" + name)',
+      example: 'def greet(name):\n    print("你好，" + name)\n\ngreet("小明")',
+      output: '你好，小明',
+      note: '定义时只是打包，不会执行；后面写 greet("小明") 才会真正运行。',
+      related: ['return', 'print']
+    },
+    {
+      name: 'return', type: 'keyword', kind: '关键字', level: 2, category: '函数定义',
+      desc: '把函数算出来的结果交出去，并立刻结束函数。',
+      signature: 'return 结果',
+      intents: ['返回值', '把结果交出去', '函数结果', '结束函数'],
+      snippet: 'return a + b',
+      example: 'def add(a, b):\n    return a + b\n\nprint(add(2, 3))',
+      output: '5',
+      note: 'return 会立刻结束函数；没写 return 的函数，结果是 None。',
+      related: ['def', 'print']
+    },
+    {
+      name: 'temp', display: 'temp', type: 'concept', kind: '概念', level: 1, category: '变量与赋值',
+      desc: '一个临时的「存放点」，用来暂存数据，比如交换两个变量。',
+      signature: 'temp = a',
+      intents: ['变量', '临时变量', '交换变量', '存东西', '临时存放'],
+      snippet: 'temp = a\na = b\nb = temp',
+      example: 'a = 3\nb = 5\ntemp = a\na = b\nb = temp\nprint(a, b)',
+      output: '5 3',
+      note: 'temp 不是 Python 关键字，只是大家习惯的临时变量名，叫 tmp 也可以。',
+      related: ['print', 'input']
     }
   ];
 
   const state = {
     view: 'level',
+    type: 'all',
     level: 'all',
     letter: 'all',
     category: 'all',
@@ -2611,6 +2743,17 @@
   }
 
   function renderFilterPanel() {
+    const typeRow = '<div class="filter-row"><span class="filter-label">词条类型</span>'
+      + TYPES.map((type) => {
+        const active = state.type === type.id ? 'active' : '';
+        const count = type.id === 'all'
+          ? FUNCTIONS.length
+          : countBy((fn) => fnType(fn) === type.id);
+        return '<button class="chip ' + active + '" type="button" data-type="' + type.id + '">'
+          + type.label + '<span class="chip-count">' + count + '</span></button>';
+      }).join('')
+      + '</div>';
+
     if (state.view === 'level') {
       const levelItems = [1, 2, 3, 4].map((level) => {
         const active = state.level === String(level) ? 'active' : '';
@@ -2619,10 +2762,10 @@
           + '<span class="chip-count">' + countBy((fn) => fn.level === level) + '</span>'
           + '</button>';
       }).join('');
-      filterPanel.innerHTML = '<span class="filter-label">按难度</span>'
+      filterPanel.innerHTML = typeRow + '<div class="filter-row"><span class="filter-label">按难度</span>'
         + '<button class="chip ' + (state.level === 'all' ? 'active' : '') + '" type="button" data-level="all">全部'
         + '<span class="chip-count">' + FUNCTIONS.length + '</span></button>'
-        + levelItems;
+        + levelItems + '</div>';
       return;
     }
 
@@ -2633,9 +2776,9 @@
         return '<button class="chip letter-chip ' + active + '" type="button" data-letter="' + letter + '"'
           + (count ? '' : ' disabled') + ' title="' + letter + '：' + count + ' 个">' + letter + '</button>';
       }).join('');
-      filterPanel.innerHTML = '<span class="filter-label">按首字母</span>'
+      filterPanel.innerHTML = typeRow + '<div class="filter-row"><span class="filter-label">按首字母</span>'
         + '<button class="chip letter-chip ' + (state.letter === 'all' ? 'active' : '') + '" type="button" data-letter="all">全部</button>'
-        + letters;
+        + letters + '</div>';
       return;
     }
 
@@ -2646,20 +2789,21 @@
         + '<span class="chip-count">' + countBy((fn) => fn.category === category) + '</span>'
         + '</button>';
     }).join('');
-    filterPanel.innerHTML = '<span class="filter-label">按功能</span>'
+    filterPanel.innerHTML = typeRow + '<div class="filter-row"><span class="filter-label">按功能</span>'
       + '<button class="chip ' + (state.category === 'all' ? 'active' : '') + '" type="button" data-category="all">全部'
       + '<span class="chip-count">' + FUNCTIONS.length + '</span></button>'
-      + categories;
+      + categories + '</div>';
   }
 
   function getFiltered() {
     const query = state.query.trim().toLowerCase();
     const list = FUNCTIONS.filter((fn) => {
+      if (state.type !== 'all' && fnType(fn) !== state.type) return false;
       if (state.level !== 'all' && fn.level !== Number(state.level)) return false;
       if (state.letter !== 'all' && fn.name[0].toUpperCase() !== state.letter) return false;
       if (state.category !== 'all' && fn.category !== state.category) return false;
       if (!query) return true;
-      const haystack = [fn.name, fn.display || '', fn.kind || '', fn.desc, fn.category, fn.signature, fn.snippet, fn.note]
+      const haystack = [fn.name, fn.display || '', fn.kind || '', TYPE_LABELS[fnType(fn)], fn.desc, fn.category, fn.signature, fn.snippet, fn.note]
         .concat(fn.intents)
         .join(' ')
         .toLowerCase();
@@ -2681,10 +2825,11 @@
     const kindTag = fn.kind && fn.kind !== '内置函数' && fn.kind !== '内置类型'
       ? '<span class="tag ghost">' + esc(fn.kind) + '</span>'
       : '';
+    const suffix = fnSuffix(fn);
     return '<article class="card" data-name="' + esc(fn.name) + '" tabindex="0" role="button" '
       + 'aria-label="查看 ' + esc(display) + ' 的词卡">'
       + '<div class="card-top">'
-      + '<code class="fn-name">' + esc(display) + '<span>()</span></code>'
+      + '<code class="fn-name">' + esc(display) + (suffix ? '<span>' + suffix + '</span>' : '') + '</code>'
       + '<div class="card-state">'
       + (isMastered ? '<span class="mastered-pill">已掌握</span>' : '')
       + '<span class="level-pill">' + LEVELS[fn.level].short + '</span>'
@@ -2702,7 +2847,7 @@
     return '<div class="empty">'
       + '<div class="empty-mark">?</div>'
       + '<h3>词库里还没找到这个词</h3>'
-      + '<p>换个说法试试：既能搜函数名，也能直接搜「输出」「排序」「转换」。</p>'
+      + '<p>换个说法试试：既能搜函数名、关键字，也能直接搜「输出」「排序」「转换」。</p>'
       + '<div class="chips">'
       + '<button class="chip" type="button" data-suggestion="print">print</button>'
       + '<button class="chip" type="button" data-suggestion="我想输出">我想输出</button>'
@@ -2716,17 +2861,19 @@
     const parts = [];
 
     if (state.query.trim()) parts.push('关键词「' + state.query.trim() + '」');
+    if (state.type !== 'all') parts.push('类型：' + TYPE_LABELS[state.type]);
     if (state.view === 'level' && state.level !== 'all') parts.push(LEVELS[Number(state.level)].label);
     if (state.view === 'letter' && state.letter !== 'all') parts.push('首字母 ' + state.letter);
     if (state.view === 'category' && state.category !== 'all') parts.push('功能：' + state.category);
 
-    resultText.textContent = (parts.length ? parts.join(' · ') + ' · ' : '') + '共 ' + list.length + ' 个函数';
-    resetBtn.hidden = !(state.query.trim() || state.level !== 'all' || state.letter !== 'all' || state.category !== 'all');
+    resultText.textContent = (parts.length ? parts.join(' · ') + ' · ' : '') + '共 ' + list.length + ' 个词条';
+    resetBtn.hidden = !(state.query.trim() || state.type !== 'all' || state.level !== 'all' || state.letter !== 'all' || state.category !== 'all');
     searchClear.hidden = !searchInput.value;
     cardGrid.innerHTML = list.length ? list.map(cardHTML).join('') : emptyHTML();
   }
 
   function resetAll() {
+    state.type = 'all';
     state.level = 'all';
     state.letter = 'all';
     state.category = 'all';
@@ -2740,6 +2887,7 @@
   function applyQuery(query) {
     searchInput.value = query;
     state.query = query;
+    state.type = 'all';
     state.level = 'all';
     state.letter = 'all';
     state.category = 'all';
@@ -2763,7 +2911,8 @@
 
     $('modalKicker').innerHTML = '<span class="level-pill">' + LEVELS[fn.level].short + ' · ' + LEVELS[fn.level].label.slice(5)
       + '</span><span class="tag">' + esc(fn.category) + '</span>' + kindTag;
-    $('modalTitle').innerHTML = esc(display) + '<span>()</span>';
+    const suffix = fnSuffix(fn);
+    $('modalTitle').innerHTML = esc(display) + (suffix ? '<span>' + suffix + '</span>' : '');
     $('modalDesc').textContent = fn.desc;
     $('modalSig').textContent = fn.signature;
     $('modalIntents').innerHTML = fn.intents.map((intent) => '<span class="tag">' + esc(intent) + '</span>').join('');
@@ -2776,9 +2925,10 @@
     noteEl.hidden = !fn.note;
 
     $('modalRelated').innerHTML = fn.related.map((relatedName) => {
-      const exists = FUNCTIONS.some((item) => item.name === relatedName);
+      const relatedFn = FUNCTIONS.find((item) => item.name === relatedName);
+      const label = relatedFn ? fnDisplay(relatedFn) + fnSuffix(relatedFn) : relatedName;
       return '<button class="chip" type="button" data-related="' + esc(relatedName) + '"'
-        + (exists ? '' : ' disabled') + '>' + esc(relatedName) + '()</button>';
+        + (relatedFn ? '' : ' disabled') + '>' + esc(label) + '</button>';
     }).join('');
 
     updateMasterBtn();
@@ -2869,8 +3019,12 @@
     return fn.display || fn.name;
   }
 
+  function fnSuffix(fn) {
+    return fnType(fn) === 'function' ? '()' : '';
+  }
+
   function fnLabel(fn) {
-    return fnDisplay(fn) + '()';
+    return fnDisplay(fn) + fnSuffix(fn);
   }
 
   function uniqueOptions(correctText, pool, getter) {
@@ -2894,7 +3048,7 @@
     if (options.length < 4) options = uniqueOptions(correct, allOthers, fnLabel);
     return {
       type: 'desc',
-      typeLabel: '看描述 · 选函数',
+      typeLabel: '看描述 · 选词条',
       prompt: '「' + fn.desc + '」应该用哪个？',
       code: '',
       options: options,
@@ -2916,7 +3070,7 @@
     if (options.length < 4) options = uniqueOptions(correct, allOthers, (item) => item.desc);
     return {
       type: 'fn',
-      typeLabel: '看函数 · 选用途',
+      typeLabel: '看词条 · 选用途',
       prompt: '「' + fnLabel(fn) + '」是做什么的？',
       code: '',
       options: options,
@@ -3060,8 +3214,8 @@
       + '<h3>10 题，斩掉今天的函数。</h3>'
       + '<p>答对就记入「已掌握」。答错也没关系，每道题后面都会跟一张小词卡，把用法讲清楚。</p>'
       + '<div class="quiz-rules">'
-      + '<div class="quiz-rule"><b>看描述 · 选函数</b><span>「我想把文字转成整数」→ 选 int()</span></div>'
-      + '<div class="quiz-rule"><b>看函数 · 选用途</b><span>sorted() 和 sort() 到底差在哪？</span></div>'
+      + '<div class="quiz-rule"><b>看描述 · 选词条</b><span>「我想把文字转成整数」→ 选 int()</span></div>'
+      + '<div class="quiz-rule"><b>看词条 · 选用途</b><span>sorted() 和 sort() 到底差在哪？</span></div>'
       + '<div class="quiz-rule"><b>看代码 · 猜输出</b><span>print("hi") 屏幕会出现什么？</span></div>'
       + '</div>'
       + '<div class="quiz-stats">'
@@ -3109,7 +3263,7 @@
     return '<div class="quiz-feedback ' + (correct ? 'ok' : 'bad') + '">'
       + '<div class="feedback-title">' + (correct ? '斩中了。' : '差一点，记住这张词卡。') + '</div>'
       + '<button class="feedback-sig" type="button" data-open-fn="' + esc(question.fnName) + '"'
-      + ' title="查看 ' + esc(question.display) + ' 的函数定义">'
+      + ' title="查看 ' + esc(question.display) + ' 的词条">'
       + esc(question.signature)
       + '<span class="feedback-sig-hint">查看词卡</span>'
       + '</button>'
@@ -3247,6 +3401,7 @@
   filterPanel.addEventListener('click', (event) => {
     const button = event.target.closest('button');
     if (!button || button.disabled) return;
+    if (button.dataset.type !== undefined) state.type = button.dataset.type;
     if (button.dataset.level !== undefined) state.level = button.dataset.level;
     if (button.dataset.letter !== undefined) state.letter = button.dataset.letter;
     if (button.dataset.category !== undefined) state.category = button.dataset.category;
@@ -3276,6 +3431,7 @@
     event.preventDefault();
     state.query = searchInput.value;
     if (state.query.trim()) {
+      state.type = 'all';
       state.level = 'all';
       state.letter = 'all';
       state.category = 'all';
@@ -3289,6 +3445,7 @@
   searchInput.addEventListener('input', () => {
     state.query = searchInput.value;
     if (state.query.trim()) {
+      state.type = 'all';
       state.level = 'all';
       state.letter = 'all';
       state.category = 'all';
@@ -3391,6 +3548,8 @@
     const el = $(id);
     if (el) el.textContent = totalFunctions;
   });
+  const categoryTotal = $('categoryTotal');
+  if (categoryTotal) categoryTotal.textContent = CATEGORIES.length;
   renderFilterPanel();
   renderResults();
   updateProgress();
