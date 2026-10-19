@@ -1593,7 +1593,7 @@
 
     <div class="topbar-right">
       <div class="progress-mini" aria-label="学习进度">
-        <span>已掌握 <b id="masteredCount">0</b> / <span id="totalCount">72</span></span>
+        <span>已掌握 <b id="masteredCount">0</b> / <span id="totalCount">107</span></span>
         <span class="progress-track"><span class="progress-fill" id="progressFill"></span></span>
       </div>
       <button class="btn-primary topbar-quiz" id="startQuizTop" type="button">开始斩词</button>
@@ -1611,7 +1611,7 @@
       <span class="eyebrow"><i></i>为编程学习小组准备的第一份礼物</span>
       <h1>每天斩一个词条，<br><span class="hl">把 Python 用成母语。</span></h1>
       <p class="lede">
-        按难度从 <code>print</code> 一路学到 <code>map</code>，也能查 <code>if</code>、<code>for</code> 这些关键字。
+        按难度从 <code>print</code> 一路学到 <code>map</code>，也能查 <code>if</code>、<code>for</code> 这些控制结构。
         按首字母 A–Z 查，或者按功能找。也可以直接说人话：搜「我想输出」「我想排序」都行。
       </p>
 
@@ -1638,7 +1638,7 @@
       </div>
 
       <div class="hero-stats">
-        <div class="stat"><b id="heroTotal">82</b><span>个词条</span></div>
+        <div class="stat"><b id="heroTotal">107</b><span>个词条</span></div>
         <div class="stat"><b id="categoryTotal">10</b><span>大功能分类</span></div>
         <div class="stat"><b>3</b><span>种斩词题型</span></div>
       </div>
@@ -1684,7 +1684,7 @@
     <div class="library-head">
       <div>
         <h2>Python 词库</h2>
-        <p><span id="libraryCount">82</span> 个词条，函数、关键字、概念都在里面，按你的习惯挑一种找法。</p>
+        <p><span id="libraryCount">107</span> 个词条，函数、控制结构、关键字、概念、变量都在里面，按你的习惯挑一种找法。</p>
       </div>
       <div class="view-tabs" role="tablist" aria-label="词库分类方式">
         <button class="view-tab active" type="button" data-view="level" role="tab" aria-selected="true">按难度</button>
@@ -1696,7 +1696,7 @@
     <div class="filter-panel" id="filterPanel" aria-label="筛选条件"></div>
 
     <div class="result-meta">
-      <span id="resultText">共 82 个词条</span>
+      <span id="resultText">共 107 个词条</span>
       <button class="reset-btn" id="resetBtn" type="button" hidden>重置筛选</button>
     </div>
 
@@ -1756,8 +1756,8 @@
 </div>
 
 <footer class="footer">
-  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.4</span>
-  <span><span id="footerCount">82</span> 个词条 · C 语言词库筹备中</span>
+  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.5</span>
+  <span><span id="footerCount">107</span> 个词条 · C 语言词库筹备中</span>
 </footer>
 
 <script>
@@ -1768,14 +1768,16 @@
     4: { short: 'Lv.4', label: 'Lv.4 挑战' }
   };
 
-  const CATEGORIES = ['输入输出', '类型转换', '数值计算', '流程控制', '循环控制', '函数定义', '变量与赋值', '序列与容器', '字符串处理', '进阶工具'];
+  const CATEGORIES = ['输入输出', '类型转换', '数值计算', '流程控制', '循环控制', '函数定义', '变量与常量', '序列与容器', '字符串处理', '判断与逻辑', '基础语法', '模块与导入', '进阶工具'];
   const TYPES = [
     { id: 'all', label: '全部' },
     { id: 'function', label: '函数' },
+    { id: 'control', label: '控制结构' },
     { id: 'keyword', label: '关键字' },
-    { id: 'concept', label: '概念' }
+    { id: 'concept', label: '概念' },
+    { id: 'variable', label: '变量' }
   ];
-  const TYPE_LABELS = { function: '函数', keyword: '关键字', concept: '概念' };
+  const TYPE_LABELS = { function: '函数', control: '控制结构', keyword: '关键字', concept: '概念', variable: '变量' };
   const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
   function fnType(fn) {
@@ -2576,7 +2578,7 @@
       related: ['open', 'read', 'print']
     },
     {
-      name: 'if', type: 'keyword', kind: '关键字', level: 1, category: '流程控制',
+      name: 'if', type: 'control', kind: '控制结构', level: 1, category: '流程控制',
       desc: '如果条件成立，就执行缩进里的代码。',
       signature: 'if 条件:',
       intents: ['如果', '判断条件', '条件成立', '分支', '我想判断'],
@@ -2587,7 +2589,7 @@
       related: ['elif', 'else', 'while']
     },
     {
-      name: 'elif', type: 'keyword', kind: '关键字', level: 2, category: '流程控制',
+      name: 'elif', type: 'control', kind: '控制结构', level: 2, category: '流程控制',
       desc: '前面的条件不成立时，再判断另一个条件。',
       signature: 'elif 条件:',
       intents: ['否则如果', '多个条件', '再判断一次', '分段'],
@@ -2598,7 +2600,7 @@
       related: ['if', 'else']
     },
     {
-      name: 'else', type: 'keyword', kind: '关键字', level: 1, category: '流程控制',
+      name: 'else', type: 'control', kind: '控制结构', level: 1, category: '流程控制',
       desc: '前面所有条件都不成立时，执行这里的代码。',
       signature: 'else:',
       intents: ['否则', '都不满足', '兜底', '其他情况'],
@@ -2609,7 +2611,7 @@
       related: ['if', 'elif']
     },
     {
-      name: 'for', type: 'keyword', kind: '关键字', level: 2, category: '循环控制',
+      name: 'for', type: 'control', kind: '控制结构', level: 2, category: '循环控制',
       desc: '把一串内容挨个拿出来，对每一个做同样的事。',
       signature: 'for 变量 in 一串内容:',
       intents: ['循环', '遍历', '重复几次', '每个都做一次', '我想循环'],
@@ -2620,7 +2622,7 @@
       related: ['while', 'range', 'break', 'continue']
     },
     {
-      name: 'while', type: 'keyword', kind: '关键字', level: 2, category: '循环控制',
+      name: 'while', type: 'control', kind: '控制结构', level: 2, category: '循环控制',
       desc: '只要条件还成立，就一直重复执行缩进里的代码。',
       signature: 'while 条件:',
       intents: ['循环', '只要还满足', '反复执行', '条件循环', '我想循环'],
@@ -2631,7 +2633,7 @@
       related: ['for', 'break', 'continue']
     },
     {
-      name: 'break', type: 'keyword', kind: '关键字', level: 2, category: '循环控制',
+      name: 'break', type: 'control', kind: '控制结构', level: 2, category: '循环控制',
       desc: '立刻跳出当前这个循环，不再继续下一轮。',
       signature: 'break',
       intents: ['跳出循环', '提前结束', '停止循环', '不想继续'],
@@ -2642,7 +2644,7 @@
       related: ['continue', 'for', 'while']
     },
     {
-      name: 'continue', type: 'keyword', kind: '关键字', level: 2, category: '循环控制',
+      name: 'continue', type: 'control', kind: '控制结构', level: 2, category: '循环控制',
       desc: '跳过这一轮剩下的代码，直接开始下一轮。',
       signature: 'continue',
       intents: ['跳过这一轮', '继续下一轮', '略过', '跳过'],
@@ -2675,7 +2677,7 @@
       related: ['def', 'print']
     },
     {
-      name: 'temp', display: 'temp', type: 'concept', kind: '概念', level: 1, category: '变量与赋值',
+      name: 'temp', display: 'temp', type: 'variable', kind: '变量', level: 1, category: '变量与常量',
       desc: '一个临时的「存放点」，用来暂存数据，比如交换两个变量。',
       signature: 'temp = a',
       intents: ['变量', '临时变量', '交换变量', '存东西', '临时存放'],
@@ -2684,6 +2686,281 @@
       output: '5 3',
       note: 'temp 不是 Python 关键字，只是大家习惯的临时变量名，叫 tmp 也可以。',
       related: ['print', 'input']
+    },
+    {
+      name: '变量', display: '变量', type: 'variable', kind: '变量', level: 1, category: '变量与常量',
+      desc: '一个贴着名字的「盒子」，用来保存数据。',
+      signature: '名字 = 值',
+      intents: ['变量是什么', '存数据', '变量', '保存值', '起名字'],
+      snippet: 'score = 90',
+      example: 'score = 90\nscore = score + 5\nprint(score)',
+      output: '95',
+      note: '变量就像贴着名字的盒子，重新赋值后，盒子里的内容会变。',
+      related: ['赋值', 'temp', 'print']
+    },
+    {
+      name: '赋值', display: '赋值', type: 'variable', kind: '变量', level: 1, category: '变量与常量',
+      desc: '把右边的值放进左边的变量里。',
+      signature: '变量 = 值',
+      intents: ['赋值', '把值存进去', '等于号', '给变量设值'],
+      snippet: 'a = 3',
+      example: 'a, b = 1, 2\nprint(a, b)',
+      output: '1 2',
+      note: '= 是赋值，不是数学里的「等于」；判断相等要用 ==。',
+      related: ['变量', 'temp', 'if']
+    },
+    {
+      name: '列表', display: '列表', type: 'concept', kind: '数据结构', level: 1, category: '序列与容器',
+      desc: '一排有顺序的数据，可以随时增删改。',
+      signature: '[元素1, 元素2, ...]',
+      intents: ['列表', '一串数据', '数组', '有序集合', '存多个东西'],
+      snippet: 'fruits = ["苹果", "香蕉"]',
+      example: 'fruits = ["苹果", "香蕉", "橙子"]\nprint(fruits[1])',
+      output: '香蕉',
+      note: '列表用方括号表示，下标从 0 开始；可以修改，是可变类型。',
+      related: ['list', '元组', 'append', '索引']
+    },
+    {
+      name: '元组', display: '元组', type: 'concept', kind: '数据结构', level: 1, category: '序列与容器',
+      desc: '一排有顺序的数据，但创建后不能修改。',
+      signature: '(元素1, 元素2, ...)',
+      intents: ['元组', '不能改的列表', 'tuple', '固定数据'],
+      snippet: 'point = (3, 5)',
+      example: 'point = (3, 5)\nprint(point[1])',
+      output: '5',
+      note: '元组用小括号表示，不能增删改；适合存放不该变的数据。',
+      related: ['tuple', '列表', '集合']
+    },
+    {
+      name: '字典', display: '字典', type: 'concept', kind: '数据结构', level: 1, category: '序列与容器',
+      desc: '用「键: 值」成对存数据的容器。',
+      signature: '{"键": "值"}',
+      intents: ['字典', '键值对', '查表', '映射', 'dict'],
+      snippet: 'person = {"name": "小明"}',
+      example: 'person = {"name": "小明", "age": 12}\nprint(person["name"])',
+      output: '小明',
+      note: '查数据靠「键」而不是位置；键不能重复。',
+      related: ['dict', '键值对', 'get', 'keys']
+    },
+    {
+      name: '集合', display: '集合', type: 'concept', kind: '数据结构', level: 1, category: '序列与容器',
+      desc: '不重复、没有固定顺序的一堆数据。',
+      signature: '{元素1, 元素2, ...}',
+      intents: ['集合', '去重', 'set', '不重复'],
+      snippet: 'nums = {1, 2, 2, 3}',
+      example: 'nums = {1, 2, 2, 3}\nprint(len(nums))',
+      output: '3',
+      note: '自动去重；因为没有顺序，不能靠下标取值。',
+      related: ['set', '列表', '元组']
+    },
+    {
+      name: '索引', display: '索引', type: 'concept', kind: '概念', level: 1, category: '序列与容器',
+      desc: '元素在序列里的位置编号，从 0 开始数。',
+      signature: '序列[下标]',
+      intents: ['下标', '位置', '索引', '第几个', 'index'],
+      snippet: 'nums[0]',
+      example: 'nums = [10, 20, 30]\nprint(nums[0])\nprint(nums[-1])',
+      output: '10\n30',
+      note: '第一个是 0，不是 1；-1 表示倒数第一个。',
+      related: ['index', '切片', '列表']
+    },
+    {
+      name: '切片', display: '切片', type: 'concept', kind: '概念', level: 2, category: '序列与容器',
+      desc: '从一串数据里截取其中一段。',
+      signature: '序列[开始:结束]',
+      intents: ['截取', '切片', '取一段', '范围'],
+      snippet: 'nums[1:3]',
+      example: 'nums = [10, 20, 30, 40]\nprint(nums[1:3])',
+      output: '[20, 30]',
+      note: '包含开始位置，不包含结束位置；省略开始或结束就取到头。',
+      related: ['索引', '列表', 'range']
+    },
+    {
+      name: '键值对', display: '键值对', type: 'concept', kind: '概念', level: 2, category: '序列与容器',
+      desc: '字典里的一条数据：一个键对应一个值。',
+      signature: '"键": "值"',
+      intents: ['键值对', '一对数据', '键和值', '字典里的条目'],
+      snippet: '"name": "小明"',
+      example: 'person = {"name": "小明"}\nprint(person["name"])',
+      output: '小明',
+      note: '键像名字，值像内容；一个键只能对应一个值。',
+      related: ['字典', 'get', 'items']
+    },
+    {
+      name: '表达式', display: '表达式', type: 'concept', kind: '概念', level: 1, category: '基础语法',
+      desc: '能算出一个结果的式子，比如 2 + 3。',
+      signature: '值 运算符 值',
+      intents: ['表达式', '算式', '算出一个值', '计算式'],
+      snippet: '2 + 3 * 4',
+      example: 'print(2 + 3 * 4)',
+      output: '14',
+      note: '乘除先算，括号最优先；表达式会产出一个值。',
+      related: ['赋值', '变量']
+    },
+    {
+      name: '参数', display: '参数', type: 'concept', kind: '概念', level: 2, category: '函数定义',
+      desc: '调用函数时，交给函数处理的数据。',
+      signature: '函数名(参数1, 参数2)',
+      intents: ['参数', '传进去的值', '函数的输入', '实参'],
+      snippet: 'greet("小明")',
+      example: 'def greet(name):\n    print("你好，" + name)\n\ngreet("小明")',
+      output: '你好，小明',
+      note: '定义函数时括号里写的是「形参」，调用时传进去的是「实参」。',
+      related: ['def', '返回值', 'print']
+    },
+    {
+      name: '返回值', display: '返回值', type: 'concept', kind: '概念', level: 2, category: '函数定义',
+      desc: '函数运行结束后，交回给调用者的结果。',
+      signature: 'return 结果',
+      intents: ['返回值', '函数的结果', 'return 回来的值', '输出结果'],
+      snippet: 'result = double(4)',
+      example: 'def double(x):\n    return x * 2\n\nprint(double(4))',
+      output: '8',
+      note: '用 return 交回结果；没有 return 的函数返回 None。',
+      related: ['return', 'def', '参数']
+    },
+    {
+      name: '缩进', display: '缩进', type: 'concept', kind: '概念', level: 1, category: '基础语法',
+      desc: '行首的空格，用来表示代码属于哪一块。',
+      signature: '4 个空格',
+      intents: ['缩进', '前面空格', '代码对齐', 'IndentationError'],
+      snippet: 'if True:\n    print("要缩进")',
+      example: 'if True:\n    print("要缩进")',
+      output: '要缩进',
+      note: 'Python 靠缩进划分代码块，同一块要对齐；一般用 4 个空格。',
+      related: ['if', 'for', '注释']
+    },
+    {
+      name: '注释', display: '注释', type: 'concept', kind: '概念', level: 1, category: '基础语法',
+      desc: '写给人看的说明，程序不会执行。',
+      signature: '# 注释内容',
+      intents: ['注释', '说明文字', '备注', '井号'],
+      snippet: '# 这是注释',
+      example: '# 这是注释，不会运行\nprint("你好")',
+      output: '你好',
+      note: '用 # 开头；注释用来解释代码，让以后看得懂。',
+      related: ['缩进']
+    },
+    {
+      name: '模块', display: '模块', type: 'concept', kind: '概念', level: 2, category: '模块与导入',
+      desc: '别人写好的一包代码，导入后就能用。',
+      signature: 'import 模块名',
+      intents: ['模块', '库', '导入别人的代码', '包'],
+      snippet: 'import math',
+      example: 'import math\nprint(math.sqrt(16))',
+      output: '4.0',
+      note: 'Python 自带很多模块，比如 math、random；导入之后才能用。',
+      related: ['import', 'sqrt', 'randint']
+    },
+    {
+      name: 'and', display: 'and', type: 'keyword', kind: '关键字', level: 1, category: '判断与逻辑',
+      desc: '逻辑与：两边都成立，结果才成立。',
+      signature: '条件A and 条件B',
+      intents: ['并且', '而且', '两个都满足', '同时成立', '逻辑与'],
+      snippet: 'age >= 18 and age < 60',
+      example: 'age = 20\nprint(age >= 18 and age < 60)',
+      output: 'True',
+      note: '只要左边是假，右边就不用再看了，这叫「短路」。',
+      related: ['or', 'not', 'if']
+    },
+    {
+      name: 'or', display: 'or', type: 'keyword', kind: '关键字', level: 1, category: '判断与逻辑',
+      desc: '逻辑或：只要有一个成立，结果就成立。',
+      signature: '条件A or 条件B',
+      intents: ['或者', '满足一个就行', '逻辑或', '不然'],
+      snippet: 'is_weekend or is_holiday',
+      example: 'print(False or True)',
+      output: 'True',
+      note: '只要有一个为真，结果就是真；左边为真时右边不再检查。',
+      related: ['and', 'not', 'if']
+    },
+    {
+      name: 'not', display: 'not', type: 'keyword', kind: '关键字', level: 1, category: '判断与逻辑',
+      desc: '逻辑非：把真变成假，把假变成真。',
+      signature: 'not 条件',
+      intents: ['取反', '不是', '反过来', '逻辑非'],
+      snippet: 'not (3 > 5)',
+      example: 'print(not (3 > 5))',
+      output: 'True',
+      note: '会把整个条件的真假反过来，复杂条件记得加括号。',
+      related: ['and', 'or', 'bool']
+    },
+    {
+      name: 'in', display: 'in', type: 'keyword', kind: '关键字', level: 2, category: '判断与逻辑',
+      desc: '判断一个元素在不在容器里。',
+      signature: '元素 in 容器',
+      intents: ['在不在', '包含', '属于', '检查元素', '有没有'],
+      snippet: '"a" in "cat"',
+      example: 'print("a" in "cat")\nprint(5 in [1, 2, 3])',
+      output: 'True\nFalse',
+      note: '用来判断「在不在里面」，也可以配合 for 遍历。',
+      related: ['not', 'for', 'set']
+    },
+    {
+      name: 'is', display: 'is', type: 'keyword', kind: '关键字', level: 2, category: '判断与逻辑',
+      desc: '判断两个名字是不是指向同一个对象。',
+      signature: 'A is B',
+      intents: ['是不是同一个', '身份相同', '为空', 'None 判断'],
+      snippet: 'x is None',
+      example: 'x = None\nprint(x is None)',
+      output: 'True',
+      note: 'is 比较的是「是不是同一个对象」，普通的数值比较优先用 ==。',
+      related: ['None', 'in']
+    },
+    {
+      name: 'True', display: 'True', type: 'keyword', kind: '关键字', level: 1, category: '变量与常量',
+      desc: '布尔值里的「真」。',
+      signature: 'True',
+      intents: ['真', '布尔真', '成立', '是'],
+      snippet: 'True',
+      example: 'print(True)',
+      output: 'True',
+      note: '首字母必须大写；写成小写 true 会报错。',
+      related: ['False', 'bool', 'not']
+    },
+    {
+      name: 'False', display: 'False', type: 'keyword', kind: '关键字', level: 1, category: '变量与常量',
+      desc: '布尔值里的「假」。',
+      signature: 'False',
+      intents: ['假', '布尔假', '不成立', '否'],
+      snippet: 'False',
+      example: 'print(False)',
+      output: 'False',
+      note: '首字母必须大写；0、空字符串、空列表在判断时也相当于 False。',
+      related: ['True', 'bool', 'not']
+    },
+    {
+      name: 'None', display: 'None', type: 'keyword', kind: '关键字', level: 1, category: '变量与常量',
+      desc: '表示「还没有值」，是一个特殊的空值。',
+      signature: 'None',
+      intents: ['空值', '没有值', '什么都没有', '空'],
+      snippet: 'value = None',
+      example: 'value = None\nprint(value is None)',
+      output: 'True',
+      note: 'None 不是 0，也不是空字符串；首字母必须大写。',
+      related: ['is', 'True', 'False']
+    },
+    {
+      name: 'import', display: 'import', type: 'keyword', kind: '关键字', level: 2, category: '模块与导入',
+      desc: '把别的模块导入进来用。',
+      signature: 'import 模块名',
+      intents: ['导入模块', '使用别人的代码', '引入库', '我想导入'],
+      snippet: 'import math',
+      example: 'import math\nprint(math.sqrt(16))',
+      output: '4.0',
+      note: '导入后用「模块名.函数名」调用，比如 math.sqrt()。',
+      related: ['模块', 'sqrt', 'randint']
+    },
+    {
+      name: 'pass', display: 'pass', type: 'keyword', kind: '关键字', level: 1, category: '基础语法',
+      desc: '占位用的关键字，什么也不做。',
+      signature: 'pass',
+      intents: ['占位', '什么也不做', '先跳过', '空着'],
+      snippet: 'if True:\n    pass',
+      example: 'for i in range(3):\n    pass\nprint("循环结束")',
+      output: '循环结束',
+      note: '让代码先能运行，之后再回来补内容；缩进块里不能空着。',
+      related: ['if', 'for']
     }
   ];
 
@@ -2776,9 +3053,14 @@
         return '<button class="chip letter-chip ' + active + '" type="button" data-letter="' + letter + '"'
           + (count ? '' : ' disabled') + ' title="' + letter + '：' + count + ' 个">' + letter + '</button>';
       }).join('');
+      const otherCount = countBy((fn) => !/[A-Z]/.test(fn.name[0].toUpperCase()));
+      const otherActive = state.letter === 'other' ? 'active' : '';
       filterPanel.innerHTML = typeRow + '<div class="filter-row"><span class="filter-label">按首字母</span>'
         + '<button class="chip letter-chip ' + (state.letter === 'all' ? 'active' : '') + '" type="button" data-letter="all">全部</button>'
-        + letters + '</div>';
+        + letters
+        + '<button class="chip letter-chip ' + otherActive + '" type="button" data-letter="other"'
+        + (otherCount ? '' : ' disabled') + ' title="其他：' + otherCount + ' 个">其他</button>'
+        + '</div>';
       return;
     }
 
@@ -2800,7 +3082,14 @@
     const list = FUNCTIONS.filter((fn) => {
       if (state.type !== 'all' && fnType(fn) !== state.type) return false;
       if (state.level !== 'all' && fn.level !== Number(state.level)) return false;
-      if (state.letter !== 'all' && fn.name[0].toUpperCase() !== state.letter) return false;
+      if (state.letter !== 'all') {
+        const first = fn.name[0].toUpperCase();
+        if (state.letter === 'other') {
+          if (/[A-Z]/.test(first)) return false;
+        } else if (first !== state.letter) {
+          return false;
+        }
+      }
       if (state.category !== 'all' && fn.category !== state.category) return false;
       if (!query) return true;
       const haystack = [fn.name, fn.display || '', fn.kind || '', TYPE_LABELS[fnType(fn)], fn.desc, fn.category, fn.signature, fn.snippet, fn.note]
@@ -2863,7 +3152,9 @@
     if (state.query.trim()) parts.push('关键词「' + state.query.trim() + '」');
     if (state.type !== 'all') parts.push('类型：' + TYPE_LABELS[state.type]);
     if (state.view === 'level' && state.level !== 'all') parts.push(LEVELS[Number(state.level)].label);
-    if (state.view === 'letter' && state.letter !== 'all') parts.push('首字母 ' + state.letter);
+    if (state.view === 'letter' && state.letter !== 'all') {
+      parts.push(state.letter === 'other' ? '其他（中文词条）' : '首字母 ' + state.letter);
+    }
     if (state.view === 'category' && state.category !== 'all') parts.push('功能：' + state.category);
 
     resultText.textContent = (parts.length ? parts.join(' · ') + ' · ' : '') + '共 ' + list.length + ' 个词条';
@@ -3211,7 +3502,7 @@
   function renderQuizIntro() {
     const accuracy = quizStats.answered ? Math.round((quizStats.correct / quizStats.answered) * 100) : 0;
     return '<div class="quiz-intro">'
-      + '<h3>10 题，斩掉今天的函数。</h3>'
+      + '<h3>10 题，斩掉今天的词条。</h3>'
       + '<p>答对就记入「已掌握」。答错也没关系，每道题后面都会跟一张小词卡，把用法讲清楚。</p>'
       + '<div class="quiz-rules">'
       + '<div class="quiz-rule"><b>看描述 · 选词条</b><span>「我想把文字转成整数」→ 选 int()</span></div>'
