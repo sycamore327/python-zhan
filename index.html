@@ -1877,19 +1877,53 @@
   }
 
   /* ---------- 响应式 ---------- */
+  @media (max-width: 1100px) {
+    .topbar-quiz { display: none; }
+  }
+
   @media (max-width: 980px) {
     .hero { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: 44px; }
     .hero > * { min-width: 0; }
     .hero-card { max-width: 560px; }
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .topbar-quiz { display: none; }
     .quiz-banner::after { right: 110px; }
+
+    .topbar-inner { flex-wrap: wrap; gap: 6px 28px; }
+
+    .nav {
+      order: 3;
+      display: flex;
+      width: 100%;
+      margin: 0;
+      gap: 2px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .nav::-webkit-scrollbar { display: none; }
+
+    .nav a,
+    .nav .nav-action {
+      flex: none;
+      padding: 7px 10px;
+      font-size: 12.5px;
+    }
+
+    #library,
+    #practice,
+    #modules { scroll-margin-top: 120px; }
   }
 
   @media (max-width: 760px) {
-    .nav { display: none; }
     .progress-mini { display: none; }
-    .topbar-inner { padding: 10px 14px; gap: 10px; }
+    .topbar-inner { padding: 10px 14px; gap: 6px 10px; }
+
+    #library,
+    #practice,
+    #modules { scroll-margin-top: 112px; }
+
     .brand { gap: 9px; }
     .brand-mark { width: 36px; height: 36px; border-radius: 10px; font-size: 14px; }
     .brand-title { font-size: 15.5px; }
@@ -2011,6 +2045,7 @@
   @media (max-width: 400px) {
     .brand-title { font-size: 14.5px; }
     .lang-btn { padding: 7px 8px; font-size: 11px; }
+    .lang-btn.soon { display: none; }
     .topbar-inner { padding: 9px 12px; }
     .hero { padding-left: 14px; padding-right: 14px; }
     .library { padding-left: 14px; padding-right: 14px; }
@@ -2397,7 +2432,7 @@
 </div>
 
 <footer class="footer">
-  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.9</span>
+  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.9.1</span>
   <span><span id="footerCount">139</span> 个词条 · 15 道经典题 · 13 个模块 · 内置编程器 · C 语言词库筹备中</span>
 </footer>
 
