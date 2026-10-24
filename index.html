@@ -1702,6 +1702,180 @@
     .modules { padding-left: 14px; padding-right: 14px; }
   }
 
+  /* ---------- Python 编程器 ---------- */
+  .nav .nav-action {
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 9px;
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .16s, color .16s;
+  }
+
+  .nav .nav-action:hover { background: rgba(255, 255, 255, .8); color: var(--blue-700); }
+
+  .console-mobile {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--blue-700);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .console-modal { width: min(920px, 100%); }
+  .console-modal .modal-desc { max-width: 640px; }
+
+  .code-console {
+    margin-top: 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .console-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 8px 10px 8px 12px;
+    border-bottom: 1px solid var(--line);
+    background: #f7fbff;
+  }
+
+  .console-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10.5px;
+  }
+
+  .console-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #c4d2e4;
+    flex: none;
+  }
+
+  .console-status[data-state="loading"]::before,
+  .console-status[data-state="running"]::before {
+    background: #e6a817;
+    animation: console-pulse 1s ease-in-out infinite;
+  }
+
+  .console-status[data-state="ready"]::before { background: #2fae68; }
+  .console-status[data-state="error"]::before { background: #d64545; }
+
+  @keyframes console-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .35; }
+  }
+
+  .console-tools { display: flex; gap: 6px; }
+
+  .console-btn {
+    padding: 6px 9px;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .console-btn:hover { border-color: var(--blue-300); color: var(--blue-700); }
+
+  .console-btn.primary {
+    border-color: var(--blue-500);
+    background: var(--blue-500);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(47, 134, 224, .22);
+  }
+
+  .console-btn.primary:hover { background: var(--blue-600); color: #fff; }
+  .console-btn:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+
+  .console-editor {
+    display: block;
+    width: 100%;
+    min-height: 140px;
+    padding: 12px 14px;
+    border: 0;
+    outline: none;
+    resize: vertical;
+    background: #fff;
+    color: #1b2a3d;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    tab-size: 4;
+  }
+
+  .console-editor:focus { box-shadow: inset 0 0 0 2px rgba(47, 134, 224, .16); }
+  .console-large .console-editor { min-height: 260px; }
+
+  .console-output {
+    min-height: 64px;
+    max-height: 260px;
+    overflow: auto;
+    padding: 10px 14px;
+    border-top: 1px dashed var(--line);
+    background: #fbfdff;
+    color: #24384f;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .console-output .console-line { display: block; }
+  .console-output .is-placeholder { color: var(--muted-2); }
+  .console-output .is-error { color: #c0392b; }
+  .console-output .is-result { color: var(--blue-700); }
+  .console-output .is-stderr { color: #b06b00; }
+
+  .console-hint {
+    margin-left: 6px;
+    color: var(--muted-2);
+    font-size: 10.5px;
+    font-weight: 400;
+  }
+
+  .console-tip {
+    margin: 8px 0 0;
+    color: var(--muted-2);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 760px) {
+    .console-mobile { display: inline-flex; }
+    .console-modal .modal-desc { font-size: 13px; }
+    .console-editor { font-size: 12px; }
+    .console-large .console-editor { min-height: 220px; }
+    .console-output { max-height: 220px; }
+  }
+
   /* ---------- 响应式 ---------- */
   @media (max-width: 980px) {
     .hero { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: 44px; }
@@ -1867,9 +2041,11 @@
       <a href="#practice">题库</a>
       <a href="#modules">模块</a>
       <a href="#today">今日推荐</a>
+      <button class="nav-action" id="openConsole" type="button">编程器</button>
     </nav>
 
     <div class="topbar-right">
+      <button class="console-mobile" id="openConsoleMobile" type="button" aria-label="打开 Python 编程器" title="Python 编程器">&lt;/&gt;</button>
       <div class="progress-mini" aria-label="学习进度">
         <span>已掌握 <b id="masteredCount">0</b> / <span id="totalCount">139</span></span>
         <span class="progress-track"><span class="progress-fill" id="progressFill"></span></span>
@@ -2075,6 +2251,22 @@
       <div class="ex-idea" id="exIdea"></div>
     </div>
 
+    <div class="modal-section">
+      <h4>自己试试<span class="console-hint">先别急着看答案，写两行跑跑看</span></h4>
+      <div class="code-console" data-console="exercise">
+        <div class="console-bar">
+          <span class="console-status" data-role="status" data-state="idle">Python 引擎未启动</span>
+          <div class="console-tools">
+            <button class="console-btn" type="button" data-role="reset">重置代码</button>
+            <button class="console-btn primary" type="button" data-role="run">运行 ↵</button>
+          </div>
+        </div>
+        <textarea class="console-editor" data-role="editor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python 代码编辑器"></textarea>
+        <div class="console-output" data-role="output" aria-live="polite"><span class="console-line is-placeholder">运行结果会显示在这里。</span></div>
+      </div>
+      <p class="console-tip">Ctrl + Enter 也可以运行。网页版暂不支持 <code>input()</code>，把输入的值直接写进代码里就好。</p>
+    </div>
+
     <div class="ex-gate" id="exGate">
       <p>别一上来就看代码。先自己敲一遍；写不出来也没关系，展开答案对照着看。</p>
       <button class="btn-primary" id="exReveal" type="button">写完了 / 卡住了，看答案</button>
@@ -2158,6 +2350,32 @@
   </div>
 </div>
 
+<div class="modal-backdrop" id="consoleBackdrop">
+  <div class="modal console-modal" id="consoleModal" role="dialog" aria-modal="true" aria-labelledby="consoleTitle">
+    <button class="modal-close" id="consoleClose" type="button" aria-label="关闭编程器">×</button>
+    <div class="modal-kicker">
+      <span class="tag">Python 3.13</span>
+      <span class="tag">浏览器内运行</span>
+      <span class="tag">免安装</span>
+    </div>
+    <h3 id="consoleTitle">Python 编程器</h3>
+    <p class="modal-desc">随手写、随手跑，代码只在你浏览器里运行。第一次运行要下载 Python 引擎（十几 MB），等几秒就好；之后会快很多。</p>
+
+    <div class="code-console console-large" data-console="console">
+      <div class="console-bar">
+        <span class="console-status" data-role="status" data-state="idle">Python 引擎未启动</span>
+        <div class="console-tools">
+          <button class="console-btn" type="button" data-role="reset">重置代码</button>
+          <button class="console-btn primary" type="button" data-role="run">运行 ↵</button>
+        </div>
+      </div>
+      <textarea class="console-editor" data-role="editor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python 代码编辑器"></textarea>
+      <div class="console-output" data-role="output" aria-live="polite"><span class="console-line is-placeholder">运行结果会显示在这里。</span></div>
+    </div>
+    <p class="console-tip">提示：Ctrl + Enter 运行。网页版暂不支持 <code>input()</code>；死循环会在 10 秒后自动停止。</p>
+  </div>
+</div>
+
 <div class="quiz-backdrop" id="quizBackdrop" aria-hidden="true">
   <section class="quiz" role="dialog" aria-modal="true" aria-labelledby="quizTitle">
     <header class="quiz-head">
@@ -2179,8 +2397,8 @@
 </div>
 
 <footer class="footer">
-  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.8</span>
-  <span><span id="footerCount">139</span> 个词条 · 15 道经典题 · 13 个模块 · C 语言词库筹备中</span>
+  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.9</span>
+  <span><span id="footerCount">139</span> 个词条 · 15 道经典题 · 13 个模块 · 内置编程器 · C 语言词库筹备中</span>
 </footer>
 
 <script>
@@ -5382,6 +5600,7 @@ plt.show()`,
     if (!ex) return;
     currentEx = ex.id;
     exAnswerOpen = false;
+    loadExerciseConsole(ex);
     renderExerciseModal();
     exBackdrop.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -5721,6 +5940,479 @@ plt.show()`,
     }
   });
 
+  /* ---------- Python 编程器（Pyodide） ---------- */
+  const PYODIDE_BASES = [
+    'https://cdn.jsdelivr.net/pyodide/v0.29.5/full/',
+    'https://fastly.jsdelivr.net/pyodide/v0.29.5/full/'
+  ];
+
+  const pyWorkerSource = `
+    let pyodide = null;
+    let initPromise = null;
+    const namespaces = {};
+    const BASES = ${JSON.stringify(PYODIDE_BASES)};
+
+    const inputShim = "def input(prompt=''):\\n"
+      + "    raise RuntimeError('网页版暂不支持 input()。把要输入的值直接写进代码里，比如 name = “小明”。')\\n";
+
+    function getNamespace(name) {
+      if (!namespaces[name]) {
+        const namespace = pyodide.globals.get('dict')();
+        pyodide.runPython(inputShim, { globals: namespace });
+        namespaces[name] = namespace;
+      }
+      return namespaces[name];
+    }
+
+    async function boot() {
+      let lastError = null;
+      for (const base of BASES) {
+        try {
+          importScripts(base + 'pyodide.js');
+          pyodide = await loadPyodide({ indexURL: base });
+          break;
+        } catch (error) {
+          lastError = error;
+          pyodide = null;
+        }
+      }
+      if (!pyodide) throw lastError || new Error('Python 引擎下载失败');
+      pyodide.setStdout({ batched: (text) => self.postMessage({ type: 'stdout', text }) });
+      pyodide.setStderr({ batched: (text) => self.postMessage({ type: 'stderr', text }) });
+      self.postMessage({ type: 'ready' });
+    }
+
+    self.onmessage = async (event) => {
+      const data = event.data || {};
+      if (data.type === 'init') {
+        if (!initPromise) {
+          initPromise = boot().catch((error) => {
+            initPromise = null;
+            self.postMessage({
+              type: 'init-error',
+              message: String((error && error.message) || error)
+            });
+          });
+        }
+        return;
+      }
+      if (data.type === 'reset') {
+        if (namespaces[data.namespace]) {
+          namespaces[data.namespace].destroy();
+          delete namespaces[data.namespace];
+        }
+        return;
+      }
+      if (data.type === 'run') {
+        try {
+          const result = await pyodide.runPythonAsync(data.code, {
+            globals: getNamespace(data.namespace)
+          });
+          if (result !== undefined) self.postMessage({ type: 'result', text: String(result) });
+          self.postMessage({ type: 'done' });
+        } catch (error) {
+          self.postMessage({ type: 'error', message: String((error && error.message) || error) });
+        }
+      }
+    };
+  `;
+
+  const consoleBackdrop = $('consoleBackdrop');
+  const consoleInstances = [];
+  const exCodeDrafts = new Map();
+
+  const pyRuntime = {
+    worker: null,
+    state: 'idle',
+    readyPromise: null,
+    resolveReady: null,
+    rejectReady: null,
+    initTimer: null,
+    busy: false,
+    active: null
+  };
+
+  const PY_STATUS = {
+    idle: 'Python 引擎未启动',
+    loading: '正在加载 Python…',
+    ready: 'Python 已就绪',
+    running: '正在运行…',
+    error: '引擎加载失败，点运行重试'
+  };
+
+  function syncConsoleUI() {
+    const state = pyRuntime.busy ? 'running' : pyRuntime.state;
+    consoleInstances.forEach((instance) => {
+      instance.status.textContent = PY_STATUS[state] || PY_STATUS.idle;
+      instance.status.dataset.state = state;
+      instance.runBtn.disabled = state === 'loading' || state === 'running';
+      instance.resetBtn.disabled = state === 'running';
+    });
+  }
+
+  function clearRuntimeTimer() {
+    if (pyRuntime.initTimer) {
+      clearTimeout(pyRuntime.initTimer);
+      pyRuntime.initTimer = null;
+    }
+  }
+
+  function stopWorker() {
+    clearRuntimeTimer();
+    if (pyRuntime.worker) {
+      pyRuntime.worker.terminate();
+      pyRuntime.worker = null;
+    }
+    pyRuntime.readyPromise = null;
+    pyRuntime.resolveReady = null;
+    pyRuntime.rejectReady = null;
+  }
+
+  function failRuntime(message) {
+    const active = pyRuntime.active;
+    pyRuntime.active = null;
+    pyRuntime.busy = false;
+    if (active) {
+      clearTimeout(active.timer);
+      active.handlers.onError(message);
+    }
+    const reject = pyRuntime.rejectReady;
+    stopWorker();
+    pyRuntime.state = 'error';
+    if (reject) reject(new Error(message));
+    syncConsoleUI();
+  }
+
+  function handleWorkerMessage(event) {
+    const data = event.data || {};
+    if (data.type === 'ready') {
+      clearRuntimeTimer();
+      pyRuntime.state = 'ready';
+      const resolve = pyRuntime.resolveReady;
+      pyRuntime.resolveReady = null;
+      pyRuntime.rejectReady = null;
+      if (resolve) resolve();
+      syncConsoleUI();
+      return;
+    }
+    if (data.type === 'init-error') {
+      failRuntime('Python 引擎加载失败：' + (data.message || '请检查网络后重试'));
+      return;
+    }
+    const active = pyRuntime.active;
+    if (!active) return;
+    if (data.type === 'stdout') {
+      active.handlers.onStdout(String(data.text || ''));
+      return;
+    }
+    if (data.type === 'stderr') {
+      active.handlers.onStderr(String(data.text || ''));
+      return;
+    }
+    if (data.type === 'result') {
+      active.handlers.onResult(String(data.text || ''));
+      return;
+    }
+    if (data.type === 'done') {
+      clearTimeout(active.timer);
+      pyRuntime.active = null;
+      pyRuntime.busy = false;
+      pyRuntime.state = 'ready';
+      active.handlers.onDone();
+      syncConsoleUI();
+      return;
+    }
+    if (data.type === 'error') {
+      clearTimeout(active.timer);
+      pyRuntime.active = null;
+      pyRuntime.busy = false;
+      pyRuntime.state = 'ready';
+      active.handlers.onError(String(data.message || '运行出错'));
+      syncConsoleUI();
+    }
+  }
+
+  function ensurePyRuntime() {
+    if (pyRuntime.state === 'ready') return Promise.resolve();
+    if (pyRuntime.readyPromise) return pyRuntime.readyPromise;
+    pyRuntime.state = 'loading';
+    const blobUrl = URL.createObjectURL(new Blob([pyWorkerSource], { type: 'text/javascript' }));
+    pyRuntime.worker = new Worker(blobUrl);
+    URL.revokeObjectURL(blobUrl);
+    pyRuntime.worker.onmessage = handleWorkerMessage;
+    pyRuntime.worker.onerror = (event) => {
+      failRuntime('Python 引擎启动失败：' + (event.message || '请检查网络后重试'));
+    };
+    pyRuntime.readyPromise = new Promise((resolve, reject) => {
+      pyRuntime.resolveReady = resolve;
+      pyRuntime.rejectReady = reject;
+    });
+    pyRuntime.initTimer = setTimeout(() => {
+      failRuntime('Python 引擎加载超时，请检查网络后重试。');
+    }, 120000);
+    pyRuntime.worker.postMessage({ type: 'init' });
+    syncConsoleUI();
+    return pyRuntime.readyPromise;
+  }
+
+  function runPython(code, namespace, handlers) {
+    if (pyRuntime.busy) {
+      handlers.onBusy();
+      return;
+    }
+    const start = () => {
+      if (!pyRuntime.worker) {
+        handlers.onError('引擎没有启动，请再点一次运行。');
+        return;
+      }
+      pyRuntime.busy = true;
+      pyRuntime.state = 'running';
+      pyRuntime.active = {
+        handlers,
+        timer: setTimeout(() => {
+          const active = pyRuntime.active;
+          pyRuntime.active = null;
+          pyRuntime.busy = false;
+          if (active) clearTimeout(active.timer);
+          stopWorker();
+          pyRuntime.state = 'idle';
+          syncConsoleUI();
+          if (active) active.handlers.onTimeout();
+        }, 10000)
+      };
+      syncConsoleUI();
+      pyRuntime.worker.postMessage({ type: 'run', code, namespace });
+    };
+    if (pyRuntime.state === 'ready') {
+      start();
+      return;
+    }
+    handlers.onLoading();
+    ensurePyRuntime().then(start).catch((error) => {
+      handlers.onError((error && error.message) || 'Python 引擎加载失败');
+    });
+  }
+
+  function friendlyConsoleError(message) {
+    const lines = String(message || '').trim().split('\n').filter((line) => line.trim());
+    const last = lines.length ? lines[lines.length - 1] : '运行出错';
+    const hints = [
+      [/NameError/, '这个名字还没定义。检查拼写，或者先用 = 给它赋值。'],
+      [/SyntaxError/, '语法有错。检查冒号、括号、引号是不是成对。'],
+      [/IndentationError|TabError/, '缩进不对。同一层代码要对齐，if / for / def 后面记得先缩进。'],
+      [/ZeroDivisionError/, '不能除以 0，换个除数试试。'],
+      [/TypeError/, '类型对不上。比如数字和文字不能直接相加，先用 str() 或 int() 转换。'],
+      [/IndexError/, '下标超范围了，列表可能没有那么多项。'],
+      [/KeyError/, '字典里没有这个键，先用 get() 或 in 检查一下。'],
+      [/ModuleNotFoundError/, '没有这个模块。检查名字有没有拼错。']
+    ];
+    const found = hints.find(([pattern]) => pattern.test(last));
+    return found ? last + '\n提示：' + found[1] : last;
+  }
+
+  function attachConsole(root, options) {
+    if (!root) return null;
+    const status = root.querySelector('[data-role="status"]');
+    const editor = root.querySelector('[data-role="editor"]');
+    const output = root.querySelector('[data-role="output"]');
+    const runBtn = root.querySelector('[data-role="run"]');
+    const resetBtn = root.querySelector('[data-role="reset"]');
+    consoleInstances.push({ status, runBtn, resetBtn });
+
+    let resetCode = options.initialCode || '';
+    let placeholder = null;
+    let hasOutput = false;
+
+    editor.value = resetCode;
+
+    function clearOutput() {
+      output.textContent = '';
+      placeholder = null;
+      hasOutput = false;
+    }
+
+    function write(text, kind) {
+      const line = document.createElement('span');
+      line.className = 'console-line' + (kind ? ' is-' + kind : '');
+      line.textContent = text;
+      output.appendChild(line);
+      output.scrollTop = output.scrollHeight;
+    }
+
+    function setPlaceholder(text) {
+      if (placeholder) placeholder.remove();
+      placeholder = document.createElement('span');
+      placeholder.className = 'console-line is-placeholder';
+      placeholder.textContent = text;
+      output.appendChild(placeholder);
+      output.scrollTop = output.scrollHeight;
+    }
+
+    function dropPlaceholder() {
+      if (placeholder) {
+        placeholder.remove();
+        placeholder = null;
+      }
+    }
+
+    function saveCode() {
+      if (options.onCodeChange) options.onCodeChange(editor.value);
+    }
+
+    function run() {
+      if (pyRuntime.busy) {
+        write('上一个程序还在运行，先等它结束。', 'placeholder');
+        return;
+      }
+      const code = editor.value;
+      clearOutput();
+      if (!code.trim()) {
+        setPlaceholder('先写点代码再运行吧。');
+        return;
+      }
+      setPlaceholder('运行中…');
+      runPython(code, options.namespace, {
+        onStdout(text) {
+          dropPlaceholder();
+          hasOutput = true;
+          write(text.endsWith('\n') ? text : text + '\n');
+        },
+        onStderr(text) {
+          dropPlaceholder();
+          hasOutput = true;
+          write(text.endsWith('\n') ? text : text + '\n', 'stderr');
+        },
+        onResult(text) {
+          dropPlaceholder();
+          hasOutput = true;
+          write('=> ' + text, 'result');
+        },
+        onDone() {
+          dropPlaceholder();
+          if (!hasOutput) {
+            setPlaceholder('运行完了，没有输出。想看结果就用 print() 打出来。');
+          } else {
+            output.scrollTop = output.scrollHeight;
+          }
+        },
+        onError(message) {
+          dropPlaceholder();
+          write(friendlyConsoleError(message), 'error');
+        },
+        onTimeout() {
+          dropPlaceholder();
+          write('运行超过 10 秒，已自动停止。检查一下是不是有死循环（比如 while True 没有 break）。', 'error');
+        },
+        onBusy() {
+          write('上一个程序还在运行，先等它结束。', 'placeholder');
+        },
+        onLoading() {
+          setPlaceholder('第一次运行要下载 Python 引擎（十几 MB），稍等一下…');
+        }
+      });
+    }
+
+    runBtn.addEventListener('click', run);
+    resetBtn.addEventListener('click', () => {
+      if (pyRuntime.busy) {
+        write('程序还在运行，等它结束再重置。', 'placeholder');
+        return;
+      }
+      editor.value = resetCode;
+      saveCode();
+      clearOutput();
+      setPlaceholder('代码已重置。');
+      if (pyRuntime.worker) {
+        pyRuntime.worker.postMessage({ type: 'reset', namespace: options.namespace });
+      }
+      editor.focus();
+    });
+
+    editor.addEventListener('input', saveCode);
+    editor.addEventListener('keydown', (event) => {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        editor.setRangeText('    ', editor.selectionStart, editor.selectionEnd, 'end');
+        saveCode();
+        return;
+      }
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+        event.preventDefault();
+        run();
+        return;
+      }
+      if (event.key === 'Enter') {
+        const value = editor.value;
+        const pos = editor.selectionStart;
+        const lineStart = value.lastIndexOf('\n', pos - 1) + 1;
+        const line = value.slice(lineStart, pos);
+        const indent = (line.match(/^\s*/) || [''])[0];
+        const extra = /:\s*$/.test(line) ? '    ' : '';
+        if (indent || extra) {
+          event.preventDefault();
+          editor.setRangeText('\n' + indent + extra, pos, pos, 'end');
+          saveCode();
+        }
+      }
+    });
+
+    return {
+      loadExercise(ex) {
+        const starter = '# 第 ' + ex.id + ' 题：' + ex.title
+          + '\n# 在这里写代码，Ctrl + Enter 运行\n\n';
+        resetCode = starter;
+        editor.value = exCodeDrafts.get(ex.id) || starter;
+        clearOutput();
+        setPlaceholder('运行结果会显示在这里。');
+      },
+      focusEditor() { editor.focus(); }
+    };
+  }
+
+  const exerciseConsole = attachConsole(document.querySelector('[data-console="exercise"]'), {
+    namespace: 'exercise',
+    onCodeChange(code) {
+      if (currentEx !== null) exCodeDrafts.set(currentEx, code);
+    }
+  });
+
+  const bigConsole = attachConsole(document.querySelector('[data-console="console"]'), {
+    namespace: 'console',
+    initialCode: '# 随便写点 Python\n# Ctrl + Enter 运行\nprint("你好，Python！")\n'
+  });
+
+  function loadExerciseConsole(ex) {
+    if (exerciseConsole) exerciseConsole.loadExercise(ex);
+  }
+
+  function openConsole() {
+    consoleBackdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    $('consoleModal').scrollTop = 0;
+    $('consoleClose').focus();
+    setTimeout(() => {
+      if (bigConsole) bigConsole.focusEditor();
+    }, 60);
+  }
+
+  function closeConsole() {
+    consoleBackdrop.classList.remove('open');
+    const othersOpen = [modalBackdrop, exBackdrop, modBackdrop]
+      .some((element) => element.classList.contains('open'))
+      || quizBackdrop.classList.contains('open');
+    document.body.style.overflow = othersOpen ? 'hidden' : '';
+  }
+
+  syncConsoleUI();
+
+  $('openConsole').addEventListener('click', openConsole);
+  $('openConsoleMobile').addEventListener('click', openConsole);
+  $('consoleClose').addEventListener('click', closeConsole);
+
+  consoleBackdrop.addEventListener('click', (event) => {
+    if (event.target === consoleBackdrop) closeConsole();
+  });
+
   /* ---------- 事件绑定 ---------- */
 
   document.querySelectorAll('.view-tab').forEach((tab) => {
@@ -5860,6 +6552,13 @@ plt.show()`,
       if (event.key === 'Escape') {
         event.preventDefault();
         closeModule();
+      }
+      return;
+    }
+    if (consoleBackdrop.classList.contains('open')) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeConsole();
       }
       return;
     }
