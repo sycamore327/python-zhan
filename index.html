@@ -2057,9 +2057,248 @@
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
   }
+
+  /* ---------- 启动加载页：夜空 + 像素小飞船 ---------- */
+  body.booting { overflow: hidden; }
+
+  #boot {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background:
+      radial-gradient(1000px 560px at 50% 64%, rgba(140, 200, 255, .30), transparent 70%),
+      radial-gradient(720px 480px at 10% 8%, rgba(191, 225, 255, .55), transparent 62%),
+      radial-gradient(680px 460px at 92% 16%, rgba(220, 238, 255, .7), transparent 60%),
+      linear-gradient(180deg, #fafdff 0%, #eef7ff 55%, #e3f1ff 100%);
+    transition: opacity .7s ease;
+  }
+  #boot.going { opacity: 0; }
+
+  #bootBg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  #bootWrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    animation: bootIn .8s cubic-bezier(.2, 1.4, .4, 1) both;
+    transition: transform .7s ease;
+  }
+  @keyframes bootIn {
+    from { opacity: 0; transform: translateY(16px) scale(.94); }
+    to { opacity: 1; transform: none; }
+  }
+  #boot.going #bootWrap { animation: none; transform: scale(1.06); }
+
+  #bootCv {
+    display: block;
+    width: 340px;
+    height: 150px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    cursor: pointer;
+    /* 浅色背景上给银白机身描一圈细边，不然会糊进背景 */
+    filter:
+      drop-shadow(1px 0 0 rgba(42, 72, 108, .55))
+      drop-shadow(-1px 0 0 rgba(42, 72, 108, .55))
+      drop-shadow(0 1px 0 rgba(42, 72, 108, .55))
+      drop-shadow(0 -1px 0 rgba(42, 72, 108, .55))
+      drop-shadow(0 10px 24px rgba(90, 171, 245, .28));
+  }
+
+  #bootTitle {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: .34em;
+    color: var(--ink);
+    text-shadow: 0 2px 12px rgba(90, 171, 245, .18);
+  }
+  #bootTitle b { color: var(--blue-500); }
+  #bootSub { font-size: 10px; letter-spacing: .32em; color: var(--muted-2); }
+
+  #bootBar {
+    width: min(280px, 68vw);
+    height: 6px;
+    border-radius: 999px;
+    background: #dceeff;
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    overflow: hidden;
+  }
+  #bootBar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #5aabf5, #8cc8ff);
+    box-shadow: 0 0 10px rgba(90, 171, 245, .4);
+    transition: width .3s cubic-bezier(.3, 1, .4, 1);
+  }
+  #bootTxt {
+    min-height: 15px;
+    font-size: 10.5px;
+    letter-spacing: .18em;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  #bootHint {
+    font-size: 10px;
+    letter-spacing: .16em;
+    color: var(--muted-2);
+    opacity: 0;
+    transition: opacity .5s;
+  }
+  #bootHint.on { opacity: 1; animation: bootHintPulse 2.4s ease-in-out infinite; }
+  @keyframes bootHintPulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+
+  #bootSay {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    white-space: nowrap;
+    pointer-events: none;
+    font: 12px/1.35 ui-monospace, "Cascadia Mono", Consolas, "Microsoft YaHei", monospace;
+    letter-spacing: .05em;
+    color: var(--ink-2);
+    background: #ffffff;
+    padding: 5px 10px;
+    border: 2px solid var(--blue-400);
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(31, 116, 207, .16);
+    opacity: 0;
+    transform: translate(-50%, 6px) scale(.8);
+    transform-origin: 50% 100%;
+    transition: opacity .16s, transform .3s cubic-bezier(.2, 1.7, .4, 1);
+  }
+  #bootSay.on { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  #bootSay::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -9px;
+    margin-left: -8px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid var(--blue-400);
+  }
+
+  /* ---------- 右下角像素小飞船彩蛋 ---------- */
+  #pet {
+    position: fixed;
+    right: 22px;
+    bottom: 16px;
+    z-index: 8;
+    width: 92px;
+    height: 92px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .6s, filter .2s;
+  }
+  #pet.show { opacity: .85; pointer-events: auto; }
+  #pet.show:hover, #pet.show:active { opacity: 1; filter: drop-shadow(0 0 12px rgba(90, 171, 245, .55)); }
+  #pet:focus { outline: none; }
+  #pet:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 3px; border-radius: 14px; }
+  #pet canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter:
+      drop-shadow(1px 0 0 rgba(42, 72, 108, .55))
+      drop-shadow(-1px 0 0 rgba(42, 72, 108, .55))
+      drop-shadow(0 1px 0 rgba(42, 72, 108, .55))
+      drop-shadow(0 -1px 0 rgba(42, 72, 108, .55))
+      drop-shadow(0 4px 10px rgba(31, 116, 207, .22));
+  }
+  #petSay {
+    position: absolute;
+    right: 86px;
+    bottom: 52px;
+    white-space: nowrap;
+    pointer-events: none;
+    font: 12px/1.35 ui-monospace, "Cascadia Mono", Consolas, "Microsoft YaHei", monospace;
+    letter-spacing: .04em;
+    color: #16233a;
+    background: #eaf4ff;
+    padding: 5px 10px;
+    border: 2px solid #5aabf5;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(31, 116, 207, .18);
+    opacity: 0;
+    transform: translate(6px, 6px) scale(.8);
+    transform-origin: 100% 100%;
+    transition: opacity .16s, transform .3s cubic-bezier(.2, 1.7, .4, 1);
+  }
+  #petSay.on { opacity: 1; transform: none; }
+  #petSay::after {
+    content: "";
+    position: absolute;
+    right: -8px;
+    bottom: 9px;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 7px solid var(--say-bd, #5aabf5);
+  }
+
+  @media (max-width: 760px) {
+    #bootWrap { gap: 10px; }
+    #bootCv { width: min(90vw, 360px); height: auto; aspect-ratio: 340 / 150; }
+    #bootTitle { font-size: 15px; letter-spacing: .26em; }
+    #bootSub { font-size: 9.5px; letter-spacing: .26em; }
+    #bootBar { width: min(260px, 72vw); }
+    #bootTxt { font-size: 10px; letter-spacing: .14em; }
+    #bootHint { font-size: 9.5px; }
+    #bootSay { font-size: 11px; padding: 4px 8px; }
+    #pet { right: 12px; bottom: 12px; width: 68px; height: 68px; }
+    #petSay { right: 64px; bottom: 38px; font-size: 11px; }
+  }
+
+  @media (max-width: 420px) {
+    #pet { width: 62px; height: 62px; }
+    #petSay { right: 58px; bottom: 34px; }
+  }
 </style>
 </head>
 <body>
+
+<div id="boot" aria-label="python斩正在启动">
+  <canvas id="bootBg" aria-hidden="true"></canvas>
+  <div id="bootWrap">
+    <canvas id="bootCv" title="碰碰我"></canvas>
+    <div id="bootSay"></div>
+    <div id="bootTitle">python<b>斩</b></div>
+    <div id="bootSub">PYTHON 词条百词斩</div>
+    <div id="bootBar"><i></i></div>
+    <div id="bootTxt">正在 import 词库 …</div>
+    <div id="bootHint">（戳戳小飞船，有惊喜）</div>
+  </div>
+</div>
+
+<div id="pet" title="碰碰我" role="button" tabindex="0" aria-label="像素小飞船">
+  <canvas id="petCv"></canvas>
+  <div id="petSay"></div>
+</div>
 
 <header class="topbar">
   <div class="topbar-inner">
@@ -2432,7 +2671,7 @@
 </div>
 
 <footer class="footer">
-  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.9.1</span>
+  <span><b>python斩</b> · Python 词条百词斩 · 学习小组内部工具 · v0.9.2</span>
   <span><span id="footerCount">139</span> 个词条 · 15 道经典题 · 13 个模块 · 内置编程器 · C 语言词库筹备中</span>
 </footer>
 
@@ -6649,6 +6888,492 @@ plt.show()`,
   updateModProgress();
   renderModFilters();
   renderModules();
+</script>
+
+<script>
+/* ================================================================== *
+ *  启动加载页 + 右下角像素小飞船彩蛋
+ *  飞船沿用星际项目那艘 13×8 的像素 UFO：
+ *  启动时居中表演（戳一下会随机做动作 + 冒颜文字），加载完飞到右下角当小宠物。
+ * ================================================================== */
+(() => {
+  /* ---------- 共用的像素飞船 ---------- */
+  const UFO = [
+    '.....GGG.....',
+    '....GGGGG....',
+    '...GGGGGGG...',
+    '..SSSSSSSSS..',
+    '.SDDDDDDDDDS.',
+    'SSLLLLLLLLLSS',
+    '.SDDDDDDDDDS.',
+    '..S.......S..',
+  ];
+  const PAL = { G: '#8ceaff', S: '#cfdcf0', D: '#5f6d8c', L: '#ffd24a' };
+  const UW = UFO[0].length, UH = UFO.length;
+
+  function makeSprite(scale) {
+    const off = document.createElement('canvas');
+    off.width = UW; off.height = UH;
+    const oc = off.getContext('2d');
+    for (let r = 0; r < UH; r++) {
+      for (let c = 0; c < UW; c++) {
+        const ch = UFO[r][c];
+        if (ch === '.') continue;
+        oc.fillStyle = PAL[ch];
+        oc.fillRect(c, r, 1, 1);
+      }
+    }
+    return { off, w: UW * scale, h: UH * scale, cw: UW * scale, ch: UH * scale };
+  }
+
+  const SAY = ['(・∀・)', '(＾▽＾)', '(≧▽≦)', '(°∀°)b', '(・ω・)', '(⌒▽⌒)', '(￣▽￣)', '(*≧ω≦*)',
+    '(＞▽＜)', '(◕‿◕)', 'ヾ(≧▽≦*)o', '(๑•̀ㅂ•́)و', '(´｡• ᵕ •｡`)', '(๑˃ᴗ˂)ﻭ',
+    '(๑>ᴗ<๑)', '(◍•ᴗ•◍)', '(＾◡＾)', '(☆▽☆)', '(≧∇≦)ﾉ', '(＠＾◡＾)', '(⌐■_■)',
+    '(・◇・)', '(¬‿¬)', '(„• ֊ •„)', '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧', '｡◕‿◕｡', 'ᕕ( ᐛ )ᕗ', '(っ˘ω˘ς)',
+    '(✧ω✧)', '(≧◡≦)', '＼(≧▽≦)／', '٩(◕‿◕)۶', '(ﾉ´ヮ`)ﾉ*: ･ﾟ'];
+  const BUBBLE = [['#eaf4ff', '#5aabf5'], ['#f0eaff', '#7a6bd6'], ['#fff6dc', '#c99a2e'],
+    ['#e6f8ee', '#3f9a6d'], ['#ffe9f1', '#c25a86'], ['#e4f5ff', '#2f7fb8']];
+
+  /* —— 小动作库：0→1 的进度 q + 随机方向 d，返回位移 / 旋转 / 缩放 —— */
+  const env = (k) => Math.sin(Math.min(1, Math.max(0, k)) * Math.PI);   // 起落包络
+  const back = (k) => 1 + 2.7 * Math.pow(k - 1, 3) + 1.7 * Math.pow(k - 1, 2); // 回弹过冲
+
+  const ACT = {
+    spin: { dur: 1.62, f: (q, d) => {                      // 起飞原地绕圈（可顺可逆）
+      const o = { dx: 0, dy: 0, rot: 0, sx: 1, sy: 1, alpha: 1 };
+      if (q < 0.15) { const k = q / 0.15; o.dy = 7 * k; o.sy = 1 - 0.34 * k; o.sx = 1 + 0.3 * k; }
+      else if (q < 0.82) {
+        const r = (q - 0.15) / 0.67, e = env(r);
+        const ang = -Math.PI / 2 + d * r * Math.PI * 2 * 1.15;
+        o.dx = Math.cos(ang) * 18 * e;
+        o.dy = -16 * e + Math.sin(ang) * 6 * e;
+        o.rot = d * r * 1.15 * 360;
+        o.sy = 1 + 0.14 * e; o.sx = 1 - 0.1 * e;
+      } else { const k = (q - 0.82) / 0.18; o.sy = 1 - 0.3 * Math.sin(k * Math.PI); o.sx = 1 + 0.26 * Math.sin(k * Math.PI); }
+      return o;
+    } },
+    flip: { dur: 1.15, f: (q, d) => {                      // 跳起来空中滚一圈
+      const o = { dx: 0, dy: 0, rot: 0, sx: 1, sy: 1, alpha: 1 };
+      if (q < 0.12) { const k = q / 0.12; o.sy = 1 - 0.3 * k; o.sx = 1 + 0.26 * k; return o; }
+      if (q > 0.86) { const k = (q - 0.86) / 0.14; o.sy = 1 - 0.3 * Math.sin(k * Math.PI); o.sx = 1 + 0.26 * Math.sin(k * Math.PI); return o; }
+      const r = (q - 0.12) / 0.74, e = env(r);
+      o.dy = -30 * e; o.rot = d * r * 360; o.sy = 1 + 0.2 * e; o.sx = 1 - 0.16 * e;
+      return o;
+    } },
+    hop: { dur: 1.0, f: (q, d) => {                        // 蹲一下蹦很高
+      const o = { dx: 0, dy: 0, rot: 0, sx: 1, sy: 1, alpha: 1 };
+      if (q < 0.16) { const k = q / 0.16; o.dy = 8 * k; o.sy = 1 - 0.4 * k; o.sx = 1 + 0.34 * k; return o; }
+      const r = (q - 0.16) / 0.84, e = env(r);
+      o.dy = -40 * e; o.sy = 1 + 0.22 * e; o.sx = 1 - 0.16 * e; o.rot = Math.sin(r * Math.PI * 2) * 6 * d;
+      return o;
+    } },
+    dance: { dur: 1.7, f: (q, d) => {                      // 扭腰摇摆
+      const o = { dx: 0, dy: 0, rot: 0, sx: 1, sy: 1, alpha: 1 };
+      const e = Math.sin(q * Math.PI), k = 0.16 * e;
+      o.dx = Math.sin(q * Math.PI * 4) * 10 * e;
+      o.dy = Math.sin(q * Math.PI * 8) * 4 * e;
+      o.rot = Math.sin(q * Math.PI * 6) * 20 * d * e;
+      o.sx = 1 + k * Math.sin(q * Math.PI * 8);
+      o.sy = 1 - k * Math.sin(q * Math.PI * 8);
+      return o;
+    } },
+    dizzy: { dur: 2.1, f: (q, d) => {                      // 连转三圈然后晕乎乎晃
+      const o = { dx: 0, dy: 0, rot: 0, sx: 1, sy: 1, alpha: 1 };
+      if (q < 0.5) { const r = q / 0.5, e = env(r); o.rot = d * r * 360 * 3; o.dy = -8 * e; }
+      else {
+        const r = (q - 0.5) / 0.5;
+        o.rot = d * Math.sin(r * Math.PI * 4) * 30 * (1 - r);
+        o.dx = Math.sin(r * Math.PI * 6) * 4;
+        o.dy = 4 * r;
+        o.sy = 1 - 0.12 * Math.sin(r * Math.PI);
+        o.sx = 1 + 0.12 * Math.sin(r * Math.PI);
+      }
+      return o;
+    } },
+    blink: { dur: 1.05, f: (q, d) => {                     // 缩没再闪现（左右换边）
+      const o = { dx: 0, dy: 0, rot: 0, sx: 1, sy: 1, alpha: 1 };
+      if (q < 0.35) { const r = q / 0.35; o.sx = 1 - r; o.sy = 1 - r; o.alpha = 1 - r; }
+      else {
+        const r = (q - 0.35) / 0.65, b = back(Math.min(1, r));
+        o.dx = -d * 22 * (1 - r);
+        o.sx = 0.2 + 0.8 * b; o.sy = 0.2 + 0.8 * b;
+        o.alpha = Math.min(1, r * 4);
+      }
+      return o;
+    } },
+    peek: { dur: 1.5, f: (q, d) => {                       // 压扁躲一下再弹回
+      const o = { dx: 0, dy: 0, rot: 0, sx: 1, sy: 1, alpha: 1 };
+      if (q < 0.22) { const r = q / 0.22; o.sy = 1 - 0.68 * r; o.sx = 1 + 0.5 * r; o.dy = 10 * r; }
+      else if (q < 0.75) { o.sy = 0.32; o.sx = 1.5; o.dy = 10; o.dx = Math.sin(q * 40) * 2; }
+      else { const r = (q - 0.75) / 0.25, b = back(Math.min(1, r));
+        o.sy = 0.32 + 0.68 * b; o.sx = 1.5 - 0.5 * b; o.dy = 10 * (1 - r); }
+      return o;
+    } },
+    dash: { dur: 1.5, f: (q, d) => {                       // 横向冲刺绕个扁椭圆
+      const o = { dx: 0, dy: 0, rot: 0, sx: 1, sy: 1, alpha: 1 };
+      if (q < 0.12) { const k = q / 0.12; o.sx = 1 - 0.2 * k; o.sy = 1 + 0.16 * k; o.dx = -d * 6 * k; return o; }
+      if (q > 0.9) { const k = (q - 0.9) / 0.1; o.sy = 1 - 0.24 * Math.sin(k * Math.PI); o.sx = 1 + 0.2 * Math.sin(k * Math.PI); return o; }
+      const r = (q - 0.12) / 0.78, e = env(r), ang = Math.PI + d * r * Math.PI * 2, s = Math.abs(Math.sin(ang));
+      o.dx = Math.cos(ang) * 24 * e;
+      o.dy = Math.sin(ang) * 11 * e - 6 * e;
+      o.rot = d * 10 * e;
+      o.sx = 1 + 0.22 * s * e; o.sy = 1 - 0.14 * s * e;
+      return o;
+    } },
+  };
+  const NAMES = Object.keys(ACT);
+
+  function flame(ctx, cx, topY, sx, f, tall) {
+    const h = tall ? 9 + 18 * f : 8 + 14 * f;
+    const g = ctx.createLinearGradient(0, topY, 0, topY + h);
+    g.addColorStop(0, 'rgba(255,205,90,.9)');
+    g.addColorStop(0.38, 'rgba(110,175,250,.8)');
+    g.addColorStop(1, 'rgba(140,200,255,0)');
+    ctx.fillStyle = g;
+    const w = (tall ? 7 + 3 * f : 5 + 2.5 * f) * sx;
+    ctx.beginPath();
+    ctx.moveTo(cx - w, topY);
+    ctx.lineTo(cx + w, topY);
+    ctx.lineTo(cx, topY + h);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  const pet = document.getElementById('pet');
+
+  /* ---------- 启动加载页 ---------- */
+  const boot = document.getElementById('boot');
+  if (boot) {
+    const cv = document.getElementById('bootCv');
+    const say = document.getElementById('bootSay');
+    const bar = document.querySelector('#bootBar i');
+    const txt = document.getElementById('bootTxt');
+    const hint = document.getElementById('bootHint');
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const CW = 340, CH = 150;
+    cv.width = CW * DPR; cv.height = CH * DPR;
+    const ctx = cv.getContext('2d');
+    const ship = makeSprite(8);
+
+    const stars = Array.from({ length: 56 }, () => ({
+      x: Math.random() * CW,
+      y: Math.random() * CH,
+      s: Math.random() < 0.85 ? 1 : 2,
+      ph: Math.random() * 6.283,
+      sp: 0.6 + Math.random() * 1.9,
+      c: Math.random() < 0.5 ? '90,171,245' : '140,200,255',
+    }));
+
+    /* —— 背景粒子：淡蓝蝴蝶结 + 小光点 —— */
+    const bgCv = document.getElementById('bootBg');
+    const bg = bgCv.getContext('2d');
+    let BW = 1, BH = 1, bows = [], dots = [], last = 0;
+
+    function makeBow() {
+      return {
+        x: Math.random() * BW,
+        y: Math.random() * BH,
+        s: 15 + Math.random() * 30,
+        rot: Math.random() * 6.283,
+        vr: (Math.random() - 0.5) * 0.3,
+        vx: (Math.random() - 0.5) * 7,
+        vy: -(5 + Math.random() * 10),
+        ph: Math.random() * 6.283,
+        c: ['140,200,255', '90,171,245', '191,225,255'][(Math.random() * 3) | 0],
+        a: 0.18 + Math.random() * 0.22,
+      };
+    }
+    function makeDot() {
+      return {
+        x: Math.random() * BW,
+        y: Math.random() * BH,
+        r: 1 + Math.random() * 2.2,
+        vx: (Math.random() - 0.5) * 4,
+        vy: -(3 + Math.random() * 7),
+        ph: Math.random() * 6.283,
+        sp: 0.7 + Math.random() * 1.6,
+      };
+    }
+    function resizeBg() {
+      BW = window.innerWidth;
+      BH = window.innerHeight;
+      bgCv.width = Math.round(BW * DPR);
+      bgCv.height = Math.round(BH * DPR);
+      bows = Array.from({ length: Math.max(8, Math.min(22, Math.round(BW * BH / 60000))) }, makeBow);
+      dots = Array.from({ length: Math.max(16, Math.min(52, Math.round(BW * BH / 28000))) }, makeDot);
+      bg.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+
+    function bowLoop(g, side, s) {
+      g.moveTo(side * 0.07 * s, 0.02 * s);
+      g.bezierCurveTo(side * 0.3 * s, -0.46 * s, side * 0.66 * s, -0.36 * s, side * 0.6 * s, 0);
+      g.bezierCurveTo(side * 0.66 * s, 0.36 * s, side * 0.3 * s, 0.46 * s, side * 0.07 * s, 0.05 * s);
+    }
+    function drawBow(g, x, y, s, rot, rgb, alpha) {
+      g.save();
+      g.translate(x, y);
+      g.rotate(rot);
+      g.lineWidth = Math.max(1, s * 0.06);
+      g.lineCap = 'round';
+      g.lineJoin = 'round';
+      g.strokeStyle = `rgba(${rgb},${alpha.toFixed(3)})`;
+      g.fillStyle = `rgba(${rgb},${(alpha * 0.22).toFixed(3)})`;
+      for (const side of [-1, 1]) {
+        g.beginPath();
+        bowLoop(g, side, s);
+        g.closePath();
+        g.fill();
+        g.stroke();
+      }
+      g.beginPath();                                      // 两条尾巴
+      g.moveTo(-0.04 * s, 0.12 * s);
+      g.quadraticCurveTo(-0.16 * s, 0.44 * s, -0.34 * s, 0.54 * s);
+      g.moveTo(0.04 * s, 0.12 * s);
+      g.quadraticCurveTo(0.16 * s, 0.44 * s, 0.34 * s, 0.54 * s);
+      g.stroke();
+      g.beginPath();                                      // 中间的结
+      g.ellipse(0, 0.03 * s, 0.1 * s, 0.13 * s, 0, 0, 6.283);
+      g.fillStyle = `rgba(${rgb},${(alpha * 0.4).toFixed(3)})`;
+      g.fill();
+      g.stroke();
+      g.restore();
+    }
+
+    function drawBackground(now, t) {
+      const dt = last ? Math.min(0.05, (now - last) / 1000) : 0.016;
+      last = now;
+      bg.setTransform(DPR, 0, 0, DPR, 0, 0);
+      bg.clearRect(0, 0, BW, BH);
+      for (const d of dots) {
+        d.x += d.vx * dt; d.y += d.vy * dt;
+        if (d.y < -8) { d.y = BH + 8; d.x = Math.random() * BW; }
+        if (d.x < -8) d.x = BW + 8; else if (d.x > BW + 8) d.x = -8;
+        const a = 0.12 + 0.3 * Math.abs(Math.sin(t * d.sp + d.ph));
+        bg.fillStyle = `rgba(90,171,245,${a.toFixed(3)})`;
+        bg.beginPath();
+        bg.arc(d.x, d.y, d.r, 0, 6.283);
+        bg.fill();
+      }
+      for (const b of bows) {
+        b.x += b.vx * dt; b.y += b.vy * dt; b.rot += b.vr * dt;
+        if (b.y < -b.s * 1.2) { b.y = BH + b.s; b.x = Math.random() * BW; }
+        if (b.x < -b.s * 1.2) b.x = BW + b.s;
+        else if (b.x > BW + b.s * 1.2) b.x = -b.s;
+        const a = b.a * (0.7 + 0.3 * Math.sin(t * 0.8 + b.ph));
+        drawBow(bg, b.x, b.y, b.s, b.rot, b.c, a);
+      }
+    }
+    resizeBg();
+    window.addEventListener('resize', resizeBg);
+
+    const TIPS = ['正在 import 词库', '正在整理 139 个词条', '正在铺开 15 道经典题',
+      '正在点亮 13 个模块', '正在唤醒编程器'];
+    const t0 = performance.now();
+    let target = 0, shown = 0, outAt = -1, done = false, raf = 0;
+    let act = 0, actName = '', dir = 1, sayTimer = 0;
+
+    let minDur = 2400;                                    // 第一次看完整版，同一次会话再看短一点
+    try {
+      if (sessionStorage.getItem('pyz-boot-seen')) minDur = 1200;
+      sessionStorage.setItem('pyz-boot-seen', '1');
+    } catch (err) { /* 隐私模式忽略 */ }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) minDur = Math.min(minDur, 600);
+
+    document.body.classList.add('booting');
+
+    function bootBubble() {
+      say.textContent = SAY[(Math.random() * SAY.length) | 0];
+      say.classList.add('on');
+      clearTimeout(sayTimer);
+      sayTimer = setTimeout(() => say.classList.remove('on'), 1800);
+    }
+
+    function poke() {                                     // 戳飞船 → 随机动作 + 颜文字
+      if (outAt >= 0) return;
+      actName = NAMES[(Math.random() * NAMES.length) | 0];
+      dir = Math.random() < 0.5 ? -1 : 1;
+      act = performance.now();
+      bootBubble();
+    }
+    cv.addEventListener('click', poke);
+
+    function finish() {
+      if (done) return;
+      done = true;
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resizeBg);
+      boot.remove();
+      document.body.classList.remove('booting');
+      if (pet) setTimeout(() => pet.classList.add('show'), 350);
+    }
+
+    function frame(now) {
+      raf = requestAnimationFrame(frame);
+      const t = (now - t0) / 1000;
+      const out = outAt >= 0 ? (now - outAt) / 1000 : -1;
+
+      drawBackground(now, t);
+
+      if (outAt < 0) {
+        const elapsed = now - t0;
+        target = elapsed >= minDur ? 1 : Math.min(0.92, (elapsed / 1700) * 0.92);
+        if (t > 1.2) hint.classList.add('on');
+      }
+
+      shown += (target - shown) * 0.07;
+      if (target >= 1 && shown > 0.995) shown = 1;
+      if (outAt < 0 && shown >= 1) { outAt = now; boot.classList.add('going'); }
+      bar.style.width = (shown * 100).toFixed(1) + '%';
+      txt.textContent = target >= 1
+        ? '准备就绪 · 出发'
+        : `${TIPS[Math.min(TIPS.length - 1, Math.floor(t / 1.1) % TIPS.length)]} … ${Math.round(shown * 100)}%`;
+
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.clearRect(0, 0, CW, CH);
+
+      for (const st of stars) {                           // 船周围的小光点
+        const a = 0.12 + 0.38 * Math.abs(Math.sin(t * st.sp + st.ph));
+        ctx.fillStyle = `rgba(${st.c},${a.toFixed(3)})`;
+        ctx.fillRect(st.x | 0, st.y | 0, st.s, st.s);
+      }
+
+      const cx = CW / 2, cy = CH / 2 - 2;
+      for (let k = 0; k < 3; k++) {                       // 扫描环
+        const p = (t * 0.5 + k / 3) % 1;
+        ctx.strokeStyle = `rgba(${k % 2 ? '90,171,245' : '140,200,255'},${((1 - p) * 0.28).toFixed(3)})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(cx, cy + 6, 30 + p * 72, 0, 6.283); ctx.stroke();
+      }
+
+      const squash = Math.sin(t * 3);
+      let dx = 0, dy = Math.sin(t * 2.2) * 4, rot = 0;
+      let sx = 1 + 0.15 * squash, sy = 1 - 0.15 * squash;
+      if (act) {                                          // 戳出来的小动作
+        const A = ACT[actName], p = (now - act) / 1000;
+        if (p >= A.dur) act = 0;
+        else {
+          const st = A.f(p / A.dur, dir);
+          dx = st.dx; dy += st.dy; rot = st.rot;
+          sx *= st.sx; sy *= st.sy;
+        }
+      }
+      let fly = 0;
+      if (out >= 0) {                                     // 出发：拉长向上窜
+        const q = Math.min(1, out / 0.35);
+        sx *= 1 - 0.34 * q;
+        sy *= 1 + 0.62 * q;
+        fly = out * 320;
+      }
+      const fy = cy + dy - fly;
+      const flick = 0.55 + 0.45 * Math.abs(Math.sin(t * 18));
+      flame(ctx, cx, fy + ship.ch * sy / 2 - 2, sx, out < 0 ? flick : 1, true);
+      ctx.imageSmoothingEnabled = false;
+      ctx.save();
+      ctx.translate(cx, fy);
+      ctx.rotate(rot * Math.PI / 180);
+      ctx.scale(sx, sy);
+      ctx.drawImage(ship.off, -ship.w / 2, -ship.h / 2, ship.w, ship.h);
+      ctx.restore();
+
+      if (out > 0.72) finish();
+    }
+    raf = requestAnimationFrame(frame);
+  } else if (pet) {
+    pet.classList.add('show');
+  }
+
+  /* ---------- 右下角小宠物：还是那艘像素小飞船 ---------- */
+  if (!pet) return;
+  const cv = document.getElementById('petCv');
+  const say = document.getElementById('petSay');
+  const DPR = Math.min(window.devicePixelRatio || 1, 2), CW = 100, CH = 100;
+  cv.width = CW * DPR; cv.height = CH * DPR;
+  const ctx = cv.getContext('2d');
+  const ship = makeSprite(4);
+
+  let t0 = performance.now(), act = 0, actName = '', dir = 1;
+  let idleSay = t0 + 9000 + Math.random() * 9000;
+  let sayTimer = 0;
+  const trail = [];
+
+  function petBubble() {
+    const [bg, bd] = BUBBLE[(Math.random() * BUBBLE.length) | 0];
+    say.textContent = SAY[(Math.random() * SAY.length) | 0];
+    say.style.background = bg;
+    say.style.borderColor = bd;
+    say.style.setProperty('--say-bd', bd);
+    say.classList.add('on');
+    clearTimeout(sayTimer);
+    sayTimer = setTimeout(() => say.classList.remove('on'), 1900);
+  }
+
+  function launch() {                                     // 随机抽动作 + 随机方向 + 随机颜文字
+    actName = NAMES[(Math.random() * NAMES.length) | 0];
+    dir = Math.random() < 0.5 ? -1 : 1;
+    act = performance.now();
+    trail.length = 0;
+    petBubble();
+  }
+
+  pet.addEventListener('pointerdown', (event) => event.stopPropagation());
+  pet.addEventListener('click', () => { if (!act) launch(); });
+  pet.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    if (!act) launch();
+  });
+
+  function draw(now) {
+    requestAnimationFrame(draw);
+    const t = (now - t0) / 1000;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.clearRect(0, 0, CW, CH);
+
+    let dx = 0, dy = Math.sin(t * 2.4) * 3, rot = 0, sx = 1, sy = 1, alpha = 1;
+    if (act) {
+      const A = ACT[actName], p = (now - act) / 1000;
+      if (p >= A.dur) act = 0;                            // 演完了，回到待机
+      else {
+        const st = A.f(p / A.dur, dir);
+        // 小画布留点余量，避免动作跳到边上看不见
+        dx = st.dx * 0.78; dy = st.dy * 0.78;
+        rot = st.rot; sx = st.sx; sy = st.sy; alpha = st.alpha;
+      }
+    }
+
+    const cx = CW / 2 + dx, cy = CH / 2 - 2 + dy;
+
+    if (act) trail.push({ x: cx, y: cy, t: now });        // 演出时拖出小像素尾迹
+    while (trail.length && now - trail[0].t > 320) trail.shift();
+    ctx.imageSmoothingEnabled = false;
+    for (let i = 0; i < trail.length; i++) {
+      const q = trail[i], a = (1 - (now - q.t) / 320) * 0.5;
+      if (a <= 0) continue;
+      const sz = 2 + 3 * (i / Math.max(1, trail.length));
+      ctx.globalAlpha = a;
+      ctx.fillStyle = i % 2 ? '#7fd7ff' : '#bda6ff';
+      ctx.fillRect(q.x - sz / 2, q.y - sz / 2, sz, sz);
+    }
+    ctx.globalAlpha = 1;
+
+    const flick = 0.5 + 0.5 * Math.abs(Math.sin(t * 17));
+    ctx.globalAlpha = alpha;
+    if (alpha > 0.02) flame(ctx, cx, cy + ship.ch * sy / 2 - 3, sx, flick, false);
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rot * Math.PI / 180);
+    ctx.scale(sx, sy);
+    ctx.drawImage(ship.off, -ship.w / 2, -ship.h / 2, ship.w, ship.h);
+    ctx.restore();
+    ctx.globalAlpha = 1;
+
+    if (!act && now > idleSay) {                          // 偶尔自己嘟囔一句
+      idleSay = now + 16000 + Math.random() * 14000;
+      petBubble();
+    }
+  }
+  requestAnimationFrame(draw);
+})();
 </script>
 </body>
 </html>
