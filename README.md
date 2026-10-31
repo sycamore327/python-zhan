@@ -1,5 +1,7 @@
 # python斩
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 > 像背单词一样，把 Python 用成母语。
 
 在线体验：**https://sycamore327.github.io/python-zhan/**
@@ -111,3 +113,7 @@
 ## 反馈
 
 欢迎提 Issue，或者直接在学习小组群里告诉我。
+
+## 开源协议
+
+本项目采用 [MIT License](LICENSE)：你可以自由使用、修改、分发，甚至用于商业用途，只需保留原作者署名。软件按「原样」提供，不附带任何担保。
